@@ -1,4 +1,3 @@
-import { LoginForm } from "@/components/login-form";
 import { SignInButtonGithub } from "@/components/ui/signin-button-github";
 import Image from "next/image";
 
@@ -63,7 +62,6 @@ export default function Home() {
         </div>
         <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
           <div className="w-full max-w-sm">
-            <LoginForm />
             <div className="flex items-center flex-col gap-4">
               <SignInButtonGithub />
             </div>

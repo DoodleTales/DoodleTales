@@ -1,19 +1,17 @@
-import { signIn } from "next-auth/react"
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { FaGithub } from "react-icons/fa"
+import { signInWithGithub } from "@/app/actions/auth"
 
 export function SignInButtonGithub() {
   return (
-    <form
-      action={async () => {
-        "use server"
-        await signIn("github", { redirectTo: "/dashboard" })
-      }}
+    <Button
+      onClick={() => signInWithGithub()}
+      className="w-full flex items-center justify-center gap-2 mt-4"
     >
-      <Button type="submit" className="w-full">
-        <FaGithub />
-        Login with GitHub
-      </Button>
-    </form>
+      <FaGithub />
+      Login with GitHub
+    </Button>
   )
 }
