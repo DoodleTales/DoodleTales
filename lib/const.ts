@@ -16,6 +16,6 @@ export const UI_MESSAGES = {
 export const GAME_CONFIG = {
   IMAGE: {
     DEFAULT_PROMPT: 'A zombie apocalypse scene.',
-    SEPARATOR: 'IMAGE:',
+    SEPARATOR: 'IMAGE: ',
   },
 };
