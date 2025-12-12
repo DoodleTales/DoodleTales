@@ -1,5 +1,6 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
+import SketchCanvas from "@/components/SketchCanvas";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -30,6 +31,15 @@ export default async function Dashboard() {
               Sign Out
             </button>
           </form>
+        </div>
+        <div>
+          <h1>Draw here!</h1>
+          <SketchCanvas
+            width="100%"
+            height="150px"
+            canvasColor="transparent"
+            strokeColor="#a855f7"
+          />
         </div>
       </div>
     </div>
