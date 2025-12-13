@@ -9,26 +9,32 @@ import { DashboardClientProps } from '@/lib/types';
 export default function Dashboard({ user }: DashboardClientProps) {
 
   return (
-    <div className='p-8'>
-      <main className='mx-auto'>
-        <section className='m-8'>
-          <DashboardClient user={user} />
+    <div className='fixed inset-0 p-8 flex flex-col overflow-hidden bg-background text-foreground'>
+      <div className='shrink-0'>
+        <DashboardClient user={user} />
+      </div>
+
+      <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
+        {/* ZombieGame Section */}
+        <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
+          <ZombieGame />
         </section>
-        <section className='m-8 flex justify-between'>
-          <div className='min-w-[600px]'>
-            <ZombieGame />
+
+        {/* SketchCanvas Section */}
+        <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>
+          <div className='p-4 border-b bg-muted/20'>
+            <h2 className='text-lg font-semibold'>Draw here!</h2>
           </div>
-          <div className='min-w-[600px] h-[300px]'>
-            <h1>Draw here!</h1>
+          <div className='flex-1 relative'>
             <SketchCanvas
               width='100%'
-              height='150px'
+              height='100%'
               canvasColor='transparent'
               strokeColor='#a855f7'
             />
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }
