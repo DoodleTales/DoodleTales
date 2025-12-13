@@ -59,6 +59,7 @@ function DarkModeToggle({ scale = 3, isDark, setIsDark }: ToggleProps) {
           width: 80px;
           height: 34px;
           transform: scale(${scale});
+          transform-origin: right center;
         }
 
         .toggle-container input {
@@ -205,22 +206,18 @@ function DarkModeToggle({ scale = 3, isDark, setIsDark }: ToggleProps) {
         }
       `}</style>
 
-      <div>
-        <div className='text-center'>
-          <label className='toggle-container'>
-            <input
-              type='checkbox'
-              checked={isDark}
-              onChange={toggleDarkMode}
-            />
-            <span className='toggle-slider'>
-              <div className='background'></div>
-              <div className='star'></div>
-              <div className='star'></div>
-            </span>
-          </label>
-        </div>
-      </div>
+      <label className='toggle-container'>
+        <input
+          type='checkbox'
+          checked={isDark}
+          onChange={toggleDarkMode}
+        />
+        <span className='toggle-slider'>
+          <div className='background'></div>
+          <div className='star'></div>
+          <div className='star'></div>
+        </span>
+      </label>
     </div>
   );
 }
