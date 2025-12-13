@@ -1,35 +1,31 @@
-import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 // https://www.cssscript.com/creative-animated-toggle-switch/
 //* Created this plain HTML and CSS into a React component with help of AI for styling
 //! The original version used webkit for transitions for example
 
 type ToggleProps = {
-  scale? : number,
-  isDark: boolean,
-  setIsDark: React.Dispatch<React.SetStateAction<boolean>>;
+  scale?: number;
 };
 
-function DarkModeToggle({ scale = 3, isDark, setIsDark }: ToggleProps) {
+function DarkModeToggle({ scale = 3 }: ToggleProps) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    }
-  }, [setIsDark]);
+    // eslint-disable-next-line
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === 'dark';
 
   const toggleDarkMode = () => {
-    setIsDark(prev => {
-      const newValue = !prev;
-      if (newValue) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      return newValue;
-    });
+    setTheme(isDark ? 'light' : 'dark');
   };
+
+  if (!mounted) {
+    return <div style={{ width: 80, height: 34, transform: `scale(${scale})`, transformOrigin: 'right center' }} />;
+  }
 
   return (
     <div>
