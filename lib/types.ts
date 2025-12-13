@@ -3,7 +3,7 @@ export interface GameMessage {
   type: 'user' | 'assistant';
   content: string;
   image?: string;
-  imageLoading?: string;
+  imageLoading?: boolean;
 }
 
 export interface GeneratedImage {

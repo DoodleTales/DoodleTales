@@ -1,5 +1,6 @@
 import { SignInButtonGithub } from '@/components/ui/signin-button-github';
 import Image from 'next/image';
+import vercelLogo from '@/public/vercel.svg';
 
 export default function Home() {
   return (
@@ -44,10 +45,9 @@ export default function Home() {
           >
             <Image
               className='dark:invert'
-              src='/vercel.svg'
+              src={vercelLogo}
               alt='Vercel logomark'
               width={16}
-              height={16}
             />
             Deploy Now
           </a>

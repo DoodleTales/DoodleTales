@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import SketchCanvas from '@/components/SketchCanvas';
 import { handleSignOut } from './actions';
+import { useZombieGame } from '../hooks/use-zombie-game';
 
 interface DashboardClientProps {
   user: {
@@ -13,33 +13,7 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ user }: DashboardClientProps) {
-  useEffect(() => {
-    fetch('/api/generate-story', {
-      method: 'POST',
-      body: JSON.stringify({
-        userMessage: 'Hello',
-        conversationHistory: [],
-        isStarting: true,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        fetch('/api/generate-image', {
-          method: 'POST',
-          body: JSON.stringify({
-            imagePrompt: data.imagePrompt,
-          }),
-        })
-          .then((res) => res.json())
-          .then((imageData) => {
-            console.log('Generated image 🖼️: ', imageData);
-          }).catch((error) => {
-            console.error('Error generating image 🚨: ', error);
-          });
-      }).catch((error) => {
-        console.error('Error generating story 🚨: ', error);
-      });
-  }, []);
+  const { messages, input, isLoading, startGame, handleSubmit, handleInputChange } = useZombieGame();
 
   return (
     <div className='min-h-screen p-8'>
