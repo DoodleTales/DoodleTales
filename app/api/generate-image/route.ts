@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
 
     console.log('Generated image 🖌️: ', files);
 
-    return NextResponse.json({ image: files[0] || null });
+    const imageFile = files?.[0];
+    //* Check if the image file has a base64 property or is the base64 string itself
+    const imageBase64 = typeof imageFile === 'string' ? imageFile : imageFile?.base64;
+
+    return NextResponse.json({ image: imageBase64 || null });
 
   } catch (error) {
     console.error('Error generating image: ', error);

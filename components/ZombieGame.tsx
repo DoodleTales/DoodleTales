@@ -31,6 +31,8 @@ export default function ZombieGame() {
                   src={`data:image/png;base64,${message.image}`}
                   alt='Scene'
                   className='w-full h-auto object-cover'
+                  width={500}
+                  height={500}
                 />
               </div>
             )}
