@@ -1,0 +1,25 @@
+import { Navbar01 } from '@/components/ui/shadcn-io/navbar-01';
+import DoodleTalesLogo from '@/public/DoodleTalesLogo.png';
+import Image from 'next/image';
+
+export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
+  return (
+    <>
+      {!isAuthenticated ?
+        <Navbar01
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto' />}
+          logoHref='/'
+        />
+        :
+        <Navbar01
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto' />}
+          logoHref='/'
+          APIOptionsText='API Options'
+          APIOptionsHref='/api-options'
+          SignOutText='Sign Out'
+          SignOutHref='/signout'
+        />
+      }
+    </>
+  );
+}
