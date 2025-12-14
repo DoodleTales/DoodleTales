@@ -1,6 +1,9 @@
+'use client';
+
 import { Navbar01 } from '@/components/ui/shadcn-io/navbar-01';
 import DoodleTalesLogo from '@/public/DoodleTalesLogo.png';
 import Image from 'next/image';
+import DarkModeToggle from './DarkModeToggle';
 
 export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
@@ -9,6 +12,7 @@ export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }
         <Navbar01
           logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto' />}
           logoHref='/'
+          darkModeToggle={<DarkModeToggle scale={0.5} />}
         />
         :
         <Navbar01
@@ -18,6 +22,7 @@ export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }
           APIOptionsHref='/api-options'
           SignOutText='Sign Out'
           SignOutHref='/signout'
+          darkModeToggle={<DarkModeToggle scale={0.5} />}
         />
       }
     </>

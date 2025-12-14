@@ -89,6 +89,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   SignOutHref?: string;
   onAPIOptionsClick?: () => void;
   onSignOutClick?: () => void;
+  darkModeToggle?: React.ReactNode;
 }
 
 // Default navigation links
@@ -112,6 +113,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       SignOutHref = '',
       onAPIOptionsClick,
       onSignOutClick,
+      darkModeToggle,
       ...props
     },
     ref
@@ -257,6 +259,11 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             >
               {SignOutText}
             </Button>
+            )}
+            {darkModeToggle && (
+              <div className="flex items-center">
+                {darkModeToggle}
+              </div>
             )}
           </div>
         </div>
