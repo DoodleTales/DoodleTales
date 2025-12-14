@@ -13,16 +13,15 @@ if (!supabaseUrl || !supabaseKey) {
 export const supabase = createClient(supabaseUrl || '', supabaseKey || '');
 
 export const SupabaseService = {
-  async getUserEnv(userId: string) {
+  async getUserByEmail(userEmail: string) {
     try {
       const { data, error } = await supabase
         .from('users')
         .select('*')
-        .eq('user_password', userId)
+        .eq('user_email', userEmail)
         .single();
 
       if (error) {
-        // returning null if not found is often better than throwing for GET
         if (error.code === 'PGRST116') return null; 
         throw error;
       }
@@ -33,12 +32,13 @@ export const SupabaseService = {
     }
   },
 
-  async createUserEnv(userId: string, envData: UserData) {
+  async createUser(userEmail: string, envData: UserData) {
     try {
+      console.log('Creating user env:', envData);
       const { data, error } = await supabase
         .from('users')
         .insert([
-          { user_id: userId, data: envData }
+          { user_email: envData.user_email, user_name: envData.user_name, user_password: envData.user_password }
         ])
         .select()
         .single();
@@ -51,12 +51,12 @@ export const SupabaseService = {
     }
   },
 
-  async updateUserEnv(userId: string, envData: UserData) {
+  async updateUser(userEmail: string, envData: UserData) {
     try {
       const { data, error } = await supabase
         .from('users')
-        .update({ data: envData })
-        .eq('user_id', userId)
+        .update({ user_name: envData.user_name, user_password: envData.user_password })
+        .eq('user_email', userEmail)
         .select()
         .single();
 
@@ -68,13 +68,13 @@ export const SupabaseService = {
     }
   },
 
-  async saveUserEnv(userId: string, envData: UserData) {
+  async saveUser(userEmail: string, envData: UserData) {
     try {
       const { data, error } = await supabase
         .from('users')
         .upsert(
-          { user_id: userId, data: envData },
-          { onConflict: 'user_id' }
+          { user_email: userEmail, data: envData },
+          { onConflict: 'user_ email' }
         )
         .select()
         .single();

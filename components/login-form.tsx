@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,11 +16,32 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { signInWithCredentials } from '@/app/actions/auth';
+import { useState } from 'react';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(formData: FormData) {
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    try {
+      await signInWithCredentials(email, password);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to login. Please check your credentials.');
+    }
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -29,12 +52,13 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={handleSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor='email'>Email</FieldLabel>
                 <Input
                   id='email'
+                  name='email'
                   type='email'
                   placeholder='user@email.com'
                   required
@@ -50,8 +74,9 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id='password' type='password' required />
+                <Input id='password' name='password' type='password' required />
               </Field>
+              {error && <div className="text-red-500 text-sm">{error}</div>}
               <Field>
                 <Button type='submit'>Login</Button>
                 <FieldDescription className='text-center'>

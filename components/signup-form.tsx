@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,11 +15,29 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { signUp } from '@/app/actions/auth';
+import { useState } from 'react';
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  async function handleSubmit(formData: FormData) {
+    setError(null);
+    setSuccess(false);
+    
+    try {
+      await signUp(formData);
+      setSuccess(true);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to sign up. Please try again.');
+    }
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -28,12 +48,18 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          {success ? (
+             <div className="text-green-600 text-center">
+               Sign up successful! You can now <a href="/login" className="underline">log in</a>.
+             </div>
+          ) : (
+          <form action={handleSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor='user'>User name</FieldLabel>
                 <Input
                   id='user'
+                  name='user'
                   type='text'
                   placeholder='User name'
                   required
@@ -43,6 +69,7 @@ export function SignupForm({
                 <FieldLabel htmlFor='email'>Email</FieldLabel>
                 <Input
                   id='email'
+                  name='email'
                   type='email'
                   placeholder='user@email.com'
                   required
@@ -50,13 +77,15 @@ export function SignupForm({
               </Field>
               <Field>
                 <FieldLabel htmlFor='password'>Password</FieldLabel>
-                <Input id='password' type='password' required />
+                <Input id='password' name='password' type='password' required />
               </Field>
+              {error && <div className="text-red-500 text-sm">{error}</div>}
               <Field>
                 <Button type='submit'>Sign up</Button>
               </Field>
             </FieldGroup>
           </form>
+          )}
         </CardContent>
       </Card>
     </div>
