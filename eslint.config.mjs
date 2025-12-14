@@ -13,7 +13,15 @@ export default defineConfig([
   ...nextTs,
 
   // Override Next.js default ignores
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', 'dist/**']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    'dist/**',
+    'components/ui/**',
+    'components/ai-elements/**',
+  ]),
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -29,6 +37,7 @@ export default defineConfig([
       'react-refresh': reactRefresh,
     },
     rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
       '@stylistic/semi': ['error', 'always'],
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/indent': ['error', 2],

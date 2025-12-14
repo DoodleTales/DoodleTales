@@ -11,34 +11,30 @@ import {
 } from '@/components/ui/card';
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { signInWithCredentials } from '@/app/actions/auth';
+import { signUp } from '@/app/actions/auth';
 import { useState } from 'react';
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   async function handleSubmit(formData: FormData) {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    setError(null);
+    setSuccess(false);
     
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      return;
-    }
-
     try {
-      await signInWithCredentials(email, password);
+      await signUp(formData);
+      setSuccess(true);
     } catch (err) {
       console.error(err);
-      setError('Failed to login. Please check your credentials.');
+      setError('Failed to sign up. Please try again.');
     }
   }
 
@@ -46,14 +42,29 @@ export function LoginForm({
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to DoodleTales</CardTitle>
+          <CardTitle>Sign up to DoodleTales</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your information below to sign up to DoodleTales
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {success ? (
+             <div className="text-green-600 text-center">
+               Sign up successful! You can now <a href="/login" className="underline">log in</a>.
+             </div>
+          ) : (
           <form action={handleSubmit}>
             <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor='user'>User name</FieldLabel>
+                <Input
+                  id='user'
+                  name='user'
+                  type='text'
+                  placeholder='User name'
+                  required
+                />
+              </Field>
               <Field>
                 <FieldLabel htmlFor='email'>Email</FieldLabel>
                 <Input
@@ -65,26 +76,16 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <div className='flex items-center'>
-                  <FieldLabel htmlFor='password'>Password</FieldLabel>
-                  <a
-                    href='#'
-                    className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
+                <FieldLabel htmlFor='password'>Password</FieldLabel>
                 <Input id='password' name='password' type='password' required />
               </Field>
               {error && <div className="text-red-500 text-sm">{error}</div>}
               <Field>
-                <Button type='submit'>Login</Button>
-                <FieldDescription className='text-center'>
-                  Don&apos;t have an account? <a href='/signup'>Sign up</a>
-                </FieldDescription>
+                <Button type='submit'>Sign up</Button>
               </Field>
             </FieldGroup>
           </form>
+          )}
         </CardContent>
       </Card>
     </div>
