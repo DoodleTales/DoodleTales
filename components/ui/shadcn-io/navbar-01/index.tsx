@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { DashboardClientProps } from '@/lib/types';
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -90,6 +91,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   onAPIOptionsClick?: () => void;
   onSignOutClick?: () => void;
   darkModeToggle?: React.ReactNode;
+  user?: DashboardClientProps['user'];
 }
 
 // Default navigation links
@@ -114,6 +116,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       onAPIOptionsClick,
       onSignOutClick,
       darkModeToggle,
+      user,
       ...props
     },
     ref
@@ -234,12 +237,16 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             </div>
           </div>
           {/* Right side */}
+            {user && (<p className="text-sm font-medium">
+              Welcome,
+              <span className="font-bold"> {user?.name}</span>
+            </p>)}
           <div className="flex items-center gap-3">
             {APIOptionsText && (
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+                className="text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white"
                 onClick={(e) => {
                 e.preventDefault();
                 if (onAPIOptionsClick) onAPIOptionsClick();
@@ -251,7 +258,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             {SignOutText && (
             <Button
               size="sm"
-              className="text-sm font-medium h-9 rounded-md shadow-sm px-4 py-2 bg-red-600 text-white hover:bg-red-700"
+              className="text-sm font-medium rounded-md shadow-sm bg-red-600 text-white hover:bg-red-700"
               onClick={(e) => {
                 e.preventDefault();
                 if (onSignOutClick) onSignOutClick();

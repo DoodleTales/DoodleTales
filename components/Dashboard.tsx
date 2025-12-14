@@ -11,7 +11,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
 
   return (
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
-      <Navbar isAuthenticated={true} />
+      <Navbar isAuthenticated={true} user={user}/>
       <div className='p-8 flex flex-col flex-1 min-h-0'>
         <div className='shrink-0'>
           <DashboardClient user={user} />
