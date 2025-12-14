@@ -260,11 +260,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
               {SignOutText}
             </Button>
             )}
-            {darkModeToggle && (
-              <div className="flex items-center">
-                {darkModeToggle}
-              </div>
-            )}
+            {darkModeToggle}
           </div>
         </div>
       </header>

@@ -24,11 +24,11 @@ function DarkModeToggle({ scale = 3 }: ToggleProps) {
   };
 
   if (!mounted) {
-    return <div style={{ width: 80, height: 34, transform: `scale(${scale})`, transformOrigin: 'right center' }} />;
+    return <div style={{ width: 60, height: 34, transform: `scale(${scale})`, transformOrigin: 'right center' }} />;
   }
 
   return (
-    <div>
+    <>
       <style>{`
         :root {
           // --dark: #111111;
@@ -214,7 +214,7 @@ function DarkModeToggle({ scale = 3 }: ToggleProps) {
           <div className='star'></div>
         </span>
       </label>
-    </div>
+    </>
   );
 }
 
