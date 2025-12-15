@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
 import {
@@ -107,7 +108,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
     {
       className,
       logo = <Logo />,
-      logoHref = '#',
+      logoHref = '/',
       navigationLinks = defaultNavigationLinks,
       APIOptionsText = '',
       APIOptionsHref = '',
@@ -203,15 +204,19 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             )}
             {/* Main nav */}
             <div className="flex items-center gap-6">
-              <button
-                onClick={(e) => e.preventDefault()}
+              <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSignOutClick) onSignOutClick();
+                }}
+                href={logoHref}
                 className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer shrink-0"
               >
                 <div className="text-2xl">
                   {logo}
                 </div>
                 <span className="hidden font-bold text-xl sm:inline-block">DoodleTales</span>
-              </button>
+              </Link>
               {/* Navigation menu */}
               {!isMobile && (
                 <NavigationMenu className="flex">

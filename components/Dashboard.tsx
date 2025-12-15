@@ -19,11 +19,18 @@ export default function Dashboard({ user }: DashboardClientProps) {
   const handleSend = async () => {
     if (canvasRef.current) {
       try {
-        const image = await canvasRef.current.exportImage('png');
+        const paths = await canvasRef.current.exportPaths();
+        if (paths.length === 0) {
+          console.error('No paths found 🖌️ ❌');
+          return;
+        } else {
+          const image = await canvasRef.current.exportImage('png');
 
-        const base64Data = image.replace(/^data:image\/png;base64,/, '');
-        await submitImage(base64Data);
-        canvasRef.current.clearCanvas();
+          //TODO Avoid showing the image directly in the chat view, we need to process it first and show the AI processed image
+          const base64Data = image.replace(/^data:image\/png;base64,/, '');
+          await submitImage(base64Data);
+          canvasRef.current.clearCanvas();
+        }
       } catch (error) {
         console.error('Error exporting image 🖼️ ❌:', error);
       }
