@@ -93,6 +93,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   onSignOutClick?: () => void;
   darkModeToggle?: React.ReactNode;
   user?: DashboardClientProps['user'];
+  isAPIOptionsDisabled?: boolean;
 }
 
 // Default navigation links
@@ -118,6 +119,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       onSignOutClick,
       darkModeToggle,
       user,
+      isAPIOptionsDisabled = false,
       ...props
     },
     ref
@@ -247,16 +249,20 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
               <span className="font-bold"> {user?.name}</span>
             </p>)}
           <div className="flex items-center gap-3">
-            {APIOptionsText && (
+            {APIOptionsText && !isAPIOptionsDisabled && (
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white"
+                className={cn(
+                  "text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white",
+                  isAPIOptionsDisabled && "opacity-50 cursor-not-allowed hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                )}
+                disabled={isAPIOptionsDisabled}
                 onClick={(e) => {
                 e.preventDefault();
-                if (onAPIOptionsClick) onAPIOptionsClick();
-              }}
-            >
+                if (onAPIOptionsClick && !isAPIOptionsDisabled) onAPIOptionsClick();
+                }}
+              >
               {APIOptionsText}
             </Button>
             )}

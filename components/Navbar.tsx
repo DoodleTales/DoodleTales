@@ -9,7 +9,7 @@ import { DashboardClientProps } from '@/lib/types';
 
 import { handleSignOut } from '@/app/dashboard/actions';
 
-export default function Navbar({ isAuthenticated, user }: { isAuthenticated: boolean, user?: DashboardClientProps['user']; }) {
+export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = false }: { isAuthenticated: boolean, user?: DashboardClientProps['user']; isAPIOptionsDisabled?: boolean; }) {
   return (
     <>
       {!isAuthenticated ?
@@ -29,6 +29,7 @@ export default function Navbar({ isAuthenticated, user }: { isAuthenticated: boo
           onSignOutClick={handleSignOut}
           user={user}
           darkModeToggle={<DarkModeToggle scale={1} />}
+          isAPIOptionsDisabled={isAPIOptionsDisabled}
         />
       }
     </>
