@@ -175,7 +175,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                     variant="ghost"
                     size="icon"
                   >
-                    <HamburgerIcon />
+                    {navigationLinks.length !== 0 && <HamburgerIcon />}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-48 p-2">
@@ -205,7 +205,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             <div className="flex items-center gap-6">
               <button
                 onClick={(e) => e.preventDefault()}
-                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
+                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer shrink-0"
               >
                 <div className="text-2xl">
                   {logo}
@@ -237,7 +237,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             </div>
           </div>
           {/* Right side */}
-            {user && (<p className="text-sm font-medium">
+            {user && (<p className="hidden lg:block text-sm font-medium">
               Welcome,
               <span className="font-bold"> {user?.name}</span>
             </p>)}

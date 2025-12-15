@@ -12,13 +12,13 @@ export default function Navbar({ isAuthenticated, user }: { isAuthenticated: boo
     <>
       {!isAuthenticated ?
         <Navbar01
-          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto' loading='eager'/>}
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='eager'/>}
           logoHref='/'
           darkModeToggle={<DarkModeToggle scale={1} />}
         />
         :
         <Navbar01
-          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto' />}
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='eager'/>}
           logoHref='/'
           APIOptionsText='API Options'
           APIOptionsHref='/api-options'
