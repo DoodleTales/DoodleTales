@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import {
   NavigationMenu,
