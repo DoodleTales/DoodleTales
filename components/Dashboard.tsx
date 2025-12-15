@@ -1,20 +1,53 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import Navbar from './Navbar';
 import ZombieGame from './ZombieGame';
 import SketchCanvas from '@/components/SketchCanvas';
 import { Button } from '@/components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 import { DashboardClientProps } from '@/lib/types';
 import { useZombieGame } from '@/app/hooks/use-zombie-game';
 
 import { FaPaperPlane } from 'react-icons/fa';
+import { Pen, Eraser, Palette } from 'lucide-react';
+
+const COLORS = [
+  '#000000', // Black
+  '#ef4444', // Red
+  '#3b82f6', // Blue
+  '#22c55e', // Green
+  '#eab308', // Yellow
+  '#a855f7', // Purple
+];
 
 export default function Dashboard({ user }: DashboardClientProps) {
   const { messages, isLoading, submitImage } = useZombieGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
+  const [strokeColor, setStrokeColor] = useState('#a855f7');
+  const [eraseMode, setEraseMode] = useState(false);
+
+  const handlePenClick = () => {
+    setEraseMode(false);
+    canvasRef.current?.eraseMode(false);
+  };
+
+  const handleEraserClick = () => {
+    setEraseMode(true);
+    canvasRef.current?.eraseMode(true);
+  };
+
+  const handleColorClick = (color: string) => {
+    setStrokeColor(color);
+    setEraseMode(false);
+    canvasRef.current?.eraseMode(false);
+  };
 
   const handleSend = async () => {
     if (canvasRef.current) {
@@ -48,8 +81,78 @@ export default function Dashboard({ user }: DashboardClientProps) {
           </section>
           {/* SketchCanvas Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>
-            <div className='p-4 border-b bg-muted/20 flex justify-between items-center'>
-              <h2 className='text-lg font-semibold leading-none'>Draw here!</h2>
+            <div className='p-4 border-b bg-muted/20 flex flex-col xl:flex-row gap-4 justify-between items-center'>
+              <h2 className='text-lg font-semibold leading-none hidden xl:block'>Draw!</h2>
+
+              {/* Toolbar */}
+              <div className='flex items-center gap-2'>
+                <div className='flex items-center border rounded-lg overflow-hidden bg-background shadow-sm'>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className={`h-8 w-8 rounded-none ${!eraseMode ? 'bg-accent/50 text-accent-foreground' : 'hover:bg-muted'}`}
+                    onClick={handlePenClick}
+                    title='Pen'
+                  >
+                    <Pen className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className={`h-8 w-8 rounded-none ${eraseMode ? 'bg-accent/50 text-accent-foreground' : 'hover:bg-muted'}`}
+                    onClick={handleEraserClick}
+                    title='Eraser'
+                  >
+                    <Eraser className='h-4 w-4' />
+                  </Button>
+                </div>
+
+                <div className='w-px h-6 bg-border mx-1' />
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      className='h-8 w-8 rounded-none'
+                      title='Color Picker'
+                    >
+                      <Palette className='h-4 w-4' style={{ color: !eraseMode ? strokeColor : undefined }} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-64 p-3'>
+                    <div className='grid gap-4'>
+                      <div className='space-y-2'>
+                        <h4 className='font-medium leading-none'>Color Palette</h4>
+                        <p className='text-sm text-muted-foreground'>
+                          Pick a color for your brush.
+                        </p>
+                      </div>
+                      <div className='grid grid-cols-6 gap-2'>
+                        {COLORS.map((color) => (
+                          <button
+                            key={color}
+                            className={`w-8 h-8 rounded-full border border-border transition-all ${strokeColor === color ? 'ring-2 ring-primary ring-offset-2' : 'hover:scale-110'}`}
+                            style={{ backgroundColor: color }}
+                            onClick={() => handleColorClick(color)}
+                            title={color}
+                          />
+                        ))}
+                      </div>
+                      <div className='flex items-center gap-2 pt-2 border-t'>
+                        <label htmlFor='custom-color' className='text-sm font-medium'>Custom:</label>
+                        <input
+                          type='color'
+                          id='custom-color'
+                          value={strokeColor}
+                          onChange={(e) => handleColorClick(e.target.value)}
+                          className='h-8 w-full cursor-pointer'
+                        />
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
               <Button className='h-[28px] w-auto' onClick={handleSend} disabled={isLoading}>
                 Send <FaPaperPlane />
               </Button>
@@ -60,7 +163,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
                 width='100%'
                 height='100%'
                 canvasColor='transparent'
-                strokeColor='#a855f7'
+                strokeColor={strokeColor}
               />
             </div>
           </section>
