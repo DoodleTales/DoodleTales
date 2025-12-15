@@ -1,13 +1,13 @@
 'use client';
-
-import { useZombieGame } from '@/app/hooks/use-zombie-game';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { GameMessage } from '@/lib/types';
 import Image from 'next/image';
 
-export default function ZombieGame() {
-  const { messages, input, isLoading, startGame, handleSubmit, handleInputChange } = useZombieGame();
+interface ZombieGameProps {
+  messages: GameMessage[];
+  isLoading: boolean;
+}
 
+export default function ZombieGame({ messages, isLoading }: ZombieGameProps) {
   return (
     <div className='flex flex-col h-full bg-background'>
       <div className='p-4 border-b bg-muted/20'>
@@ -33,6 +33,7 @@ export default function ZombieGame() {
                   className='w-full h-auto object-cover'
                   width={500}
                   height={500}
+                  loading='eager'
                 />
               </div>
             )}
@@ -49,19 +50,6 @@ export default function ZombieGame() {
           </div>
         )}
       </div>
-
-      <form onSubmit={handleSubmit} className='p-4 border-t flex gap-2'>
-        <Input
-          value={input}
-          onChange={handleInputChange}
-          placeholder='What do you do next?'
-          disabled={isLoading}
-          className='flex-1'
-        />
-        <Button type='submit' disabled={isLoading}>
-          Send
-        </Button>
-      </form>
     </div>
   );
 }

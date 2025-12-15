@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
@@ -93,6 +94,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   onSignOutClick?: () => void;
   darkModeToggle?: React.ReactNode;
   user?: DashboardClientProps['user'];
+  isAPIOptionsDisabled?: boolean;
 }
 
 // Default navigation links
@@ -108,7 +110,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
     {
       className,
       logo = <Logo />,
-      logoHref = '#',
+      logoHref = '/',
       navigationLinks = defaultNavigationLinks,
       APIOptionsText = '',
       APIOptionsHref = '',
@@ -118,6 +120,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       onSignOutClick,
       darkModeToggle,
       user,
+      isAPIOptionsDisabled = false,
       ...props
     },
     ref
@@ -176,7 +179,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                     variant="ghost"
                     size="icon"
                   >
-                    <HamburgerIcon />
+                    {navigationLinks.length !== 0 && <HamburgerIcon />}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-48 p-2">
@@ -205,8 +208,12 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             {/* Main nav */}
             <div className="flex items-center gap-6">
               <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSignOutClick) onSignOutClick();
+                }}
                 href={logoHref}
-                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
+                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer shrink-0"
               >
                 <div className="text-2xl">
                   {logo}
@@ -238,21 +245,25 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             </div>
           </div>
           {/* Right side */}
-            {user && (<p className="text-sm font-medium">
+            {user && (<p className="hidden lg:block text-sm font-medium">
               Welcome,
               <span className="font-bold"> {user?.name}</span>
             </p>)}
           <div className="flex items-center gap-3">
-            {APIOptionsText && (
+            {APIOptionsText && !isAPIOptionsDisabled && (
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white"
+                className={cn(
+                  "text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white",
+                  isAPIOptionsDisabled && "opacity-50 cursor-not-allowed hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                )}
+                disabled={isAPIOptionsDisabled}
                 onClick={(e) => {
                 e.preventDefault();
-                if (onAPIOptionsClick) onAPIOptionsClick();
-              }}
-            >
+                if (onAPIOptionsClick && !isAPIOptionsDisabled) onAPIOptionsClick();
+                }}
+              >
               {APIOptionsText}
             </Button>
             )}

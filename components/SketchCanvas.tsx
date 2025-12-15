@@ -1,7 +1,12 @@
 'use client';
 
-import { ReactSketchCanvas, ReactSketchCanvasProps } from 'react-sketch-canvas';
+import { forwardRef } from 'react';
+import { ReactSketchCanvas, ReactSketchCanvasProps, ReactSketchCanvasRef } from 'react-sketch-canvas';
 
-export default function SketchCanvas(props: ReactSketchCanvasProps) {
-  return <ReactSketchCanvas {...props} />;
-}
+const SketchCanvas = forwardRef<ReactSketchCanvasRef, ReactSketchCanvasProps>((props, ref) => {
+  return <ReactSketchCanvas ref={ref} {...props} />;
+});
+
+SketchCanvas.displayName = 'SketchCanvas';
+
+export default SketchCanvas;

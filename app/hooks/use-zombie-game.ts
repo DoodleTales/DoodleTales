@@ -1,9 +1,8 @@
 import { useCallback, useState, useEffect } from 'react';
-import type { GameMessage, conversationMessage } from '@/lib/types';
+import type { GameMessage } from '@/lib/types';
 
 export function useZombieGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
-  const [input , setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const startGame = useCallback(async () => {
@@ -84,25 +83,25 @@ export function useZombieGame() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if(!input.trim() || isLoading) return;
+  const submitImage = async (base64Image: string) => {
+    if (isLoading) return;
 
     const userMessage: GameMessage = {
       id: crypto.randomUUID(),
       type: 'user',
-      content: input,
+      content: 'Sent a drawing',
+      image: base64Image,
     };
 
     setIsLoading(true);
-    setInput('');
     setMessages(prevMessages => [...prevMessages, userMessage]);
 
     try {
       const response = await fetch('/api/generate-story', {
         method: 'POST',
         body: JSON.stringify({
-          userMessage: input,
+          //! Send image to backend, constrain size
+          userImage: base64Image,
           conversationHistory: messages,
           isStarting: false,
         }),
@@ -131,16 +130,10 @@ export function useZombieGame() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
-
   return {
     messages,
-    input,
     isLoading,
     startGame,
-    handleSubmit,
-    handleInputChange,
+    submitImage,
   };
 }
