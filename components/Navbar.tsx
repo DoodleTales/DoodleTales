@@ -7,6 +7,8 @@ import DarkModeToggle from './DarkModeToggle';
 
 import { DashboardClientProps } from '@/lib/types';
 
+import { handleSignOut } from '@/app/dashboard/actions';
+
 export default function Navbar({ isAuthenticated, user }: { isAuthenticated: boolean, user?: DashboardClientProps['user']; }) {
   return (
     <>
@@ -24,6 +26,7 @@ export default function Navbar({ isAuthenticated, user }: { isAuthenticated: boo
           APIOptionsHref='/api-options'
           SignOutText='Sign Out'
           SignOutHref='/signout'
+          onSignOutClick={handleSignOut}
           user={user}
           darkModeToggle={<DarkModeToggle scale={1} />}
         />

@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
-import DashboardClient from './DashboardClient';
 import Navbar from './Navbar';
 import ZombieGame from './ZombieGame';
 import SketchCanvas from '@/components/SketchCanvas';
@@ -35,9 +34,6 @@ export default function Dashboard({ user }: DashboardClientProps) {
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
       <Navbar isAuthenticated={true} user={user}/>
       <div className='p-8 flex flex-col flex-1 min-h-0'>
-        <div className='shrink-0'>
-          <DashboardClient user={user} />
-        </div>
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
           {/* ZombieGame Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
@@ -46,8 +42,8 @@ export default function Dashboard({ user }: DashboardClientProps) {
           {/* SketchCanvas Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>
             <div className='p-4 border-b bg-muted/20 flex justify-between items-center'>
-              <h2 className='text-lg font-semibold'>Draw here!</h2>
-              <Button onClick={handleSend} disabled={isLoading}>
+              <h2 className='text-lg font-semibold leading-none'>Draw here!</h2>
+              <Button className='h-[28px] w-auto' onClick={handleSend} disabled={isLoading}>
                 Send <FaPaperPlane />
               </Button>
             </div>

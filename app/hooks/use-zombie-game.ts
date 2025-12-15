@@ -89,7 +89,7 @@ export function useZombieGame() {
     const userMessage: GameMessage = {
       id: crypto.randomUUID(),
       type: 'user',
-      content: 'Sent a drawing', // Placeholder content for UI
+      content: 'Sent a drawing',
       image: base64Image,
     };
 
@@ -100,7 +100,7 @@ export function useZombieGame() {
       const response = await fetch('/api/generate-story', {
         method: 'POST',
         body: JSON.stringify({
-          //! Send image to backend
+          //! Send image to backend, constrain size
           userImage: base64Image,
           conversationHistory: messages,
           isStarting: false,
