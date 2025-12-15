@@ -30,8 +30,9 @@ const COLORS = [
 export default function Dashboard({ user }: DashboardClientProps) {
   const { messages, isLoading, submitImage } = useZombieGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
-  const [strokeColor, setStrokeColor] = useState('#a855f7');
+  const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(5);
 
   const handlePenClick = () => {
     setEraseMode(false);
@@ -152,6 +153,21 @@ export default function Dashboard({ user }: DashboardClientProps) {
                     </div>
                   </PopoverContent>
                 </Popover>
+
+                <div className='w-px h-6 bg-border mx-1' />
+
+                <div className='flex items-center gap-2'>
+                  <span className='text-xs font-medium text-muted-foreground w-4 text-center'>{strokeWidth}</span>
+                  <input
+                    type='range'
+                    min='1'
+                    max='100'
+                    value={strokeWidth}
+                    onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
+                    className='w-24 h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary'
+                    title='Brush Size'
+                  />
+                </div>
               </div>
               <Button className='h-[28px] w-auto' onClick={handleSend} disabled={isLoading}>
                 Send <FaPaperPlane />
@@ -164,6 +180,8 @@ export default function Dashboard({ user }: DashboardClientProps) {
                 height='100%'
                 canvasColor='transparent'
                 strokeColor={strokeColor}
+                strokeWidth={strokeWidth}
+                eraserWidth={strokeWidth}
               />
             </div>
           </section>
