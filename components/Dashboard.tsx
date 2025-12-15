@@ -16,7 +16,7 @@ import { DashboardClientProps } from '@/lib/types';
 import { useZombieGame } from '@/app/hooks/use-zombie-game';
 
 import { FaPaperPlane } from 'react-icons/fa';
-import { Pen, Eraser, Palette } from 'lucide-react';
+import { Pen, Eraser, Palette, Trash } from 'lucide-react';
 
 const COLORS = [
   '#000000', // Black
@@ -24,7 +24,6 @@ const COLORS = [
   '#3b82f6', // Blue
   '#22c55e', // Green
   '#eab308', // Yellow
-  '#a855f7', // Purple
 ];
 
 export default function Dashboard({ user }: DashboardClientProps) {
@@ -32,7 +31,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
-  const [strokeWidth, setStrokeWidth] = useState(5);
+  const [strokeWidth, setStrokeWidth] = useState(10);
 
   const handlePenClick = () => {
     setEraseMode(false);
@@ -42,6 +41,10 @@ export default function Dashboard({ user }: DashboardClientProps) {
   const handleEraserClick = () => {
     setEraseMode(true);
     canvasRef.current?.eraseMode(true);
+  };
+
+  const handleClearClick = () => {
+    canvasRef.current?.clearCanvas();
   };
 
   const handleColorClick = (color: string) => {
@@ -105,6 +108,15 @@ export default function Dashboard({ user }: DashboardClientProps) {
                     title='Eraser'
                   >
                     <Eraser className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className={'h-8 w-8 rounded-none'}
+                    onClick={handleClearClick}
+                    title='Clear'
+                  >
+                    <Trash className='h-4 w-4' />
                   </Button>
                 </div>
 
