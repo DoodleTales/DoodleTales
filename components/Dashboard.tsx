@@ -19,11 +19,11 @@ import { FaPaperPlane } from 'react-icons/fa';
 import { Pen, Eraser, Palette, Trash } from 'lucide-react';
 
 const COLORS = [
-  '#000000', // Black
-  '#ef4444', // Red
-  '#3b82f6', // Blue
-  '#22c55e', // Green
-  '#eab308', // Yellow
+  '#000000',
+  '#ef4444',
+  '#3b82f6',
+  '#22c55e',
+  '#eab308',
 ];
 
 export default function Dashboard({ user }: DashboardClientProps) {
@@ -32,6 +32,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(10);
+  const [sendFailed, setSendFailed] = useState(false);
 
   const handlePenClick = () => {
     setEraseMode(false);
@@ -59,6 +60,9 @@ export default function Dashboard({ user }: DashboardClientProps) {
         const paths = await canvasRef.current.exportPaths();
         if (paths.length === 0) {
           console.error('No paths found 🖌️ ❌');
+          setSendFailed(true);
+          // Reset after animation completes (500ms)
+          setTimeout(() => setSendFailed(false), 500);
           return;
         } else {
           const image = await canvasRef.current.exportImage('png');
@@ -94,7 +98,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
                   <Button
                     variant='ghost'
                     size='icon'
-                    className={`h-8 w-8 rounded-none ${!eraseMode ? 'bg-accent/50 text-accent-foreground' : 'hover:bg-muted'}`}
+                    className={`h-8 w-8 rounded-none ${!eraseMode ? 'bg-accent text-accent-foreground' : 'hover:bg-muted'}`}
                     onClick={handlePenClick}
                     title='Pen'
                   >
@@ -103,7 +107,7 @@ export default function Dashboard({ user }: DashboardClientProps) {
                   <Button
                     variant='ghost'
                     size='icon'
-                    className={`h-8 w-8 rounded-none ${eraseMode ? 'bg-accent/50 text-accent-foreground' : 'hover:bg-muted'}`}
+                    className={`h-8 w-8 rounded-none ${eraseMode ? 'bg-accent text-accent-foreground' : 'hover:bg-muted'}`}
                     onClick={handleEraserClick}
                     title='Eraser'
                   >
@@ -181,7 +185,12 @@ export default function Dashboard({ user }: DashboardClientProps) {
                   />
                 </div>
               </div>
-              <Button className='h-[28px] w-auto' onClick={handleSend} disabled={isLoading}>
+              <Button
+                key={sendFailed ? 'send-failed' : 'send-normal'}
+                className={`${sendFailed ? 'animate-shake bg-red-600 hover:bg-red-600 text-white' : ''}`}
+                onClick={handleSend}
+                disabled={isLoading}
+              >
                 Send <FaPaperPlane />
               </Button>
             </div>
