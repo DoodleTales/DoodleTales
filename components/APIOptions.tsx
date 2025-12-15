@@ -12,19 +12,19 @@ import { Eye, EyeOff, Save, Trash2, ExternalLink } from 'lucide-react';
 export default function APIOptions({ user }: DashboardClientProps) {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
-  // Placeholder state for now
+  //TODO Placeholder state for now
   const [hasKey, setHasKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Placeholder logic
+    //TODO Placeholder logic
     console.log('Saving API Key:', apiKey);
     setTimeout(() => {
       setHasKey(true);
       setIsLoading(false);
-      setApiKey(''); // Clear input after save
+      setApiKey('');
       alert('API Key saved successfully! (Placeholder)');
     }, 1000);
   };
@@ -32,7 +32,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Placeholder logic
+    //TODO Placeholder logic
     console.log('Updating API Key:', apiKey);
     setTimeout(() => {
       setIsLoading(false);
@@ -44,7 +44,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
   const handleDelete = async () => {
     if (confirm('Are you sure you want to delete your API Key?')) {
       setIsLoading(true);
-      // Placeholder logic
+      //TODO Placeholder logic
       console.log('Deleting API Key');
       setTimeout(() => {
         setHasKey(false);
@@ -63,12 +63,15 @@ export default function APIOptions({ user }: DashboardClientProps) {
           {/* Instructions Panel */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col gap-6 relative'>
             <div>
-              <h2 className='text-2xl font-bold mb-4'>Getting Started with Google AI</h2>
+              <h2 className='text-2xl font-bold mb-4 text-center'>Getting Started with Google AI</h2>
               <div className='aspect-video relative w-full mb-6 rounded-lg overflow-hidden border bg-muted'>
-                {/* Placeholder for an instructional image */}
-                <div className='absolute inset-0 flex items-center justify-center text-muted-foreground'>
-                  <span className='text-lg'>[Instructional Image / Video Placeholder]</span>
-                </div>
+                <iframe
+                  className='absolute inset-0 w-full h-full'
+                  src='https://www.youtube.com/embed/RVGbLSVFtIk'
+                  title='Google AI API Key Tutorial'
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                  allowFullScreen
+                />
               </div>
 
               <div className='prose dark:prose-invert max-w-none space-y-4'>
