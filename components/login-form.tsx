@@ -28,7 +28,7 @@ export function LoginForm({
   async function handleSubmit(formData: FormData) {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-    
+
     if (!email || !password) {
       setError('Please fill in all fields');
       return;
@@ -61,6 +61,7 @@ export function LoginForm({
                   name='email'
                   type='email'
                   placeholder='user@email.com'
+                  autoComplete='username'
                   required
                 />
               </Field>
@@ -70,13 +71,14 @@ export function LoginForm({
                   <a
                     href='#'
                     className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
+                    type='password'
                   >
                     Forgot your password?
                   </a>
                 </div>
-                <Input id='password' name='password' type='password' required />
+                <Input id='password' name='password' type='password' autoComplete='current-password' required />
               </Field>
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {error && <div className='text-red-500 text-sm'>{error}</div>}
               <Field>
                 <Button type='submit'>Login</Button>
                 <FieldDescription className='text-center'>
