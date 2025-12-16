@@ -22,7 +22,6 @@ export default function HomePage() {
                 <div className='w-full max-w-sm'>
                   <LoginForm />
                 </div>
-                <SignInButtonGithub />
               </div>
             </div>
           </div>

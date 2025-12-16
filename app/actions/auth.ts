@@ -23,16 +23,22 @@ export async function signUp(formData: FormData) {
   const password = formData.get('password') as string;
   const name = formData.get('user') as string;
 
+  const number = process.env.SCRIPT_NUMBER;
+
   if (!email || !password || !name) {
     throw new Error('Missing fields');
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  if (!number) {
+    throw new Error('SCRIPT_NUMBER is not set');
+  }
 
+  const hashedPassword = await bcrypt.hash(password, Number(number));
+  const hashedPasswordSlice = hashedPassword.slice(7);
   const userData: UserData = {
-    user_name: name,
-    user_email: email,
-    user_password: hashedPassword,
+    name: name,
+    email: email,
+    password: hashedPasswordSlice,
   };
 
   const { error } = await SupabaseService.createUser(email, userData);

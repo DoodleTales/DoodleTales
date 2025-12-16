@@ -50,7 +50,7 @@ export function SignupForm({
         <CardContent>
           {success ? (
              <div className="text-green-600 text-center">
-               Sign up successful! You can now <a href="/login" className="underline">log in</a>.
+               Sign up successful! You can now <a href="/" className="underline">log in</a>.
              </div>
           ) : (
           <form action={handleSubmit}>
