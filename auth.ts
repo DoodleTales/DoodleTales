@@ -29,8 +29,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
            console.log('User not found');
            return null;
         }
-
-        const passwordsMatch = await bcrypt.compare(password as string, user.user_password);
+        const scriptKey = process.env.SCRIPT_KEY;
+        if (!scriptKey) {
+          console.log('SCRIPT_KEY is not set');
+          return null;
+        }
+        const securePassword = scriptKey.concat(user.user_password as string);
+        console.log('Secure password:', securePassword);
+        const passwordsMatch = await bcrypt.compare(password as string, securePassword);
 
         if (!passwordsMatch) {
           console.log('Invalid password');
