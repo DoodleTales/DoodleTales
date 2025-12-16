@@ -23,7 +23,7 @@ export const SupabaseService = {
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') return null; 
+        if (error.code === 'PGRST116') return null;
         throw error;
       }
       return data;
@@ -40,7 +40,7 @@ export const SupabaseService = {
         .schema('next_auth')
         .from('users')
         .insert([
-          { email: envData.email, name: envData.name, password: envData.password }
+          { email: envData.email, name: envData.name, password: envData.password },
         ])
         .select()
         .single();
@@ -78,7 +78,7 @@ export const SupabaseService = {
         .from('users')
         .upsert(
           { email: userEmail, name: envData.name, password: envData.password, ai_api_key: envData.ai_api_key },
-          { onConflict: 'email' }
+          { onConflict: 'email' },
         )
         .select()
         .single();
@@ -89,5 +89,5 @@ export const SupabaseService = {
       console.error('Error saving user env:', error);
       throw error;
     }
-  }
+  },
 };

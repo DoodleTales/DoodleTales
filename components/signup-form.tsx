@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { signUp } from '@/app/actions/auth';
 import { useState } from 'react';
+import { Link } from 'lucide-react';
 
 export function SignupForm({
   className,
@@ -28,7 +29,7 @@ export function SignupForm({
   async function handleSubmit(formData: FormData) {
     setError(null);
     setSuccess(false);
-    
+
     try {
       await signUp(formData);
       setSuccess(true);
@@ -49,42 +50,42 @@ export function SignupForm({
         </CardHeader>
         <CardContent>
           {success ? (
-             <div className="text-green-600 text-center">
-               Sign up successful! You can now <a href="/" className="underline">log in</a>.
-             </div>
+            <div className='text-green-600 text-center'>
+              Sign up successful! You can now <Link href='/' className='underline'>log in</Link>.
+            </div>
           ) : (
-          <form action={handleSubmit}>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor='user'>User name</FieldLabel>
-                <Input
-                  id='user'
-                  name='user'
-                  type='text'
-                  placeholder='User name'
-                  required
-                />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor='email'>Email</FieldLabel>
-                <Input
-                  id='email'
-                  name='email'
-                  type='email'
-                  placeholder='user@email.com'
-                  required
-                />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor='password'>Password</FieldLabel>
-                <Input id='password' name='password' type='password' required />
-              </Field>
-              {error && <div className="text-red-500 text-sm">{error}</div>}
-              <Field>
-                <Button type='submit'>Sign up</Button>
-              </Field>
-            </FieldGroup>
-          </form>
+            <form action={handleSubmit}>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor='user'>User name</FieldLabel>
+                  <Input
+                    id='user'
+                    name='user'
+                    type='text'
+                    placeholder='User name'
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor='email'>Email</FieldLabel>
+                  <Input
+                    id='email'
+                    name='email'
+                    type='email'
+                    placeholder='user@email.com'
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor='password'>Password</FieldLabel>
+                  <Input id='password' name='password' type='password' required />
+                </Field>
+                {error && <div className='text-red-500 text-sm'>{error}</div>}
+                <Field>
+                  <Button type='submit'>Sign up</Button>
+                </Field>
+              </FieldGroup>
+            </form>
           )}
         </CardContent>
       </Card>

@@ -8,11 +8,11 @@ import { auth } from '@/auth';
 import { SupabaseService } from './services/supabase';
 
 export default async function HomePage() {
-  const session= await auth();
+  const session = await auth();
 
   if (session?.user?.email) {
     const user = await SupabaseService.getUserByEmail(session.user.email);
-   
+
     if(user.ai_api_key) {
       redirect('/theme-provider');
     } else {

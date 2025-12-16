@@ -21,14 +21,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        
+
         const { email, password } = credentials;
 
-        const user = await SupabaseService.getUserByEmail(email as string)
+        const user = await SupabaseService.getUserByEmail(email as string);
 
         if (!user) {
-           console.log('User not found');
-           return null;
+          console.log('User not found');
+          return null;
         }
         const scriptKey = process.env.SCRIPT_KEY;
         if (!scriptKey) {
@@ -56,7 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     secret: process.env.SUPABASE_SERVICE_KEY!,
   }),
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 24 * 60 * 60, // 24 hours (in seconds).
   },
 });
