@@ -32,7 +32,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
           <div className='flex items-center gap-2'>
             <div>
               <div className='font-semibold'>API key successfully saved!</div>
-              <div className='text-sm opacity-90'>You can now use the API key to access the API.</div>
+              <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
           <div className='flex items-center gap-2'>
             <div>
               <div className='font-semibold'>API key successfully updated!</div>
-              <div className='text-sm opacity-90'>You can now use the API key to access the API.</div>
+              <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
         </div>

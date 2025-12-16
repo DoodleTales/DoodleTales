@@ -37,6 +37,13 @@ export function LoginForm({
     try {
       await signInWithCredentials(email, password);
     } catch (err) {
+      //* Re-throw if it's a redirect error (successful login)
+      if (
+        (err as Error).message === 'NEXT_REDIRECT' ||
+        (err as any)?.digest?.startsWith('NEXT_REDIRECT')
+      ) {
+        throw err;
+      }
       console.error(err);
       setError('Failed to login. Please check your credentials.');
     }
