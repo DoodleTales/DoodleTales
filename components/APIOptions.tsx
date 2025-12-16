@@ -164,10 +164,10 @@ export default function APIOptions({ user }: DashboardClientProps) {
                         </div>
                       </div>
                       <div className='flex gap-2'>
-                        <Button type='submit' className='flex-1' disabled={isLoading}>
+                        <Button type='submit' className='flex-1 cursor-pointer' disabled={isLoading}>
                           {isLoading ? 'Updating...' : 'Update Key'}
                         </Button>
-                        <Button type='button' variant='destructive' onClick={handleDelete} disabled={isLoading}>
+                        <Button type='button' variant='destructive' onClick={handleDelete} disabled={isLoading} className='cursor-pointer'>
                           <Trash2 className='h-4 w-4 mr-2' />
                           Delete
                         </Button>
@@ -185,20 +185,21 @@ export default function APIOptions({ user }: DashboardClientProps) {
                           placeholder='AIzaSy...'
                           value={apiKey}
                           onChange={(e) => setApiKey(e.target.value)}
+                          autoComplete='off'
                           required
                         />
                         <Button
                           type='button'
                           variant='ghost'
                           size='icon'
-                          className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
+                          className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer'
                           onClick={() => setShowKey(!showKey)}
                         >
                           {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
                         </Button>
                       </div>
                     </div>
-                    <Button type='submit' className='w-full' disabled={isLoading}>
+                    <Button type='submit' className='w-full cursor-pointer' disabled={isLoading}>
                       <Save className='h-4 w-4 mr-2' />
                       {isLoading ? 'Saving...' : 'Save API Key'}
                     </Button>
