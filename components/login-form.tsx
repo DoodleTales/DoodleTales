@@ -16,7 +16,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { signInWithCredentials } from '@/app/actions/auth';
+import { signInWithCredentials } from '@/app/services/auth';
 import { useState } from 'react';
 
 export function LoginForm({

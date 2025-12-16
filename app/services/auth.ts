@@ -1,9 +1,9 @@
 'use server';
-
+//! this is the auth service where the calls are used
 import { signIn, signOut } from '@/auth';
 import { SupabaseService } from '@/app/services/supabase';
 import bcrypt from 'bcrypt';
-import { UserData } from '../services/dbtypes';
+import { UserData } from './dbtypes';
 
 export async function signInWithGithub() {
   await signIn('github', { redirectTo: '/' });

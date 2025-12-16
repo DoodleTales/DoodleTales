@@ -15,7 +15,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { signUp } from '@/app/actions/auth';
+import { signUp } from '@/app/services/auth';
 import { useState } from 'react';
 import { Link } from 'lucide-react';
 

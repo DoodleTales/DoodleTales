@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { FaGithub } from 'react-icons/fa';
-import { signInWithGithub } from '@/app/actions/auth';
+import { signInWithGithub } from '@/app/services/auth';
 
 export function SignInButtonGithub() {
   return (
