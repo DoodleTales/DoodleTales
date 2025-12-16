@@ -1,12 +1,25 @@
 'use client';
 
-import { SignInButtonGithub } from '@/components/ui/signin-button-github';
 import Navbar from '@/components/Navbar';
 import { LoginForm } from '@/components/login-form';
 import Image from 'next/image';
 import DoodleTalesLogo from '@/public/DoodleTalesLogo.png';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+import { SupabaseService } from './services/supabase';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session= await auth();
+
+  if (session?.user?.email) {
+    const user = await SupabaseService.getUserByEmail(session.user.email);
+   
+    if(user.ai_api_key) {
+      redirect('/theme-provider');
+    } else {
+      redirect('/api-options');
+    }
+  }
 
   return (
     <div className='fixed flex min-h-screen flex-col w-full overflow-auto [scrollbar-width:none]'>

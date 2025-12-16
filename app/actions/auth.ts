@@ -6,11 +6,11 @@ import bcrypt from 'bcrypt';
 import { UserData } from '../services/dbtypes';
 
 export async function signInWithGithub() {
-  await signIn('github', { redirectTo: '/dashboard' });
+  await signIn('github', { redirectTo: '/' });
 }
 
 export async function signInWithCredentials(email: string, password: string) {
-  await signIn('credentials', { email, password, redirectTo: '/dashboard' });
+  await signIn('credentials', { email, password, redirectTo: '/' });
 }
 
 export async function signOutAction() {
