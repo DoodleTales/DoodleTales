@@ -2,12 +2,12 @@
 import { createClient } from '@supabase/supabase-js';
 import { UserData } from './dbtypes';
 
-// Ensure these validation variables are present in your .env.local file
+//* Ensure these validation variables are present in your .env.local file
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.warn('Missing Supabase environment variables. Please check your .env.local file.');
+  console.warn('Missing Supabase environment variables.');
 }
 
 export const supabase = createClient(supabaseUrl || '', supabaseKey || '');
@@ -87,6 +87,24 @@ export const SupabaseService = {
       return data;
     } catch (error) {
       console.error('Error saving user env:', error);
+      throw error;
+    }
+  },
+
+  async deleteUser(userEmail: string) {
+    try {
+      const { data, error } = await supabase
+        .schema('next_auth')
+        .from('users')
+        .delete()
+        .eq('email', userEmail)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error deleting user env:', error);
       throw error;
     }
   },
