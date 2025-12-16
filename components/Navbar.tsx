@@ -14,14 +14,14 @@ export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = f
     <>
       {!isAuthenticated ?
         <Navbar01
-          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='eager'/>}
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' priority/>}
           logoHref='/'
           onSignOutClick={handleSignOut}
           darkModeToggle={<DarkModeToggle scale={1} />}
         />
         :
         <Navbar01
-          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='eager'/>}
+          logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' priority/>}
           logoHref='/'
           APIOptionsText='API Options'
           APIOptionsHref='/api-options'

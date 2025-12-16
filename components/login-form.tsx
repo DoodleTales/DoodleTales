@@ -68,13 +68,6 @@ export function LoginForm({
               <Field>
                 <div className='flex items-center'>
                   <FieldLabel htmlFor='password'>Password</FieldLabel>
-                  <a
-                    href='#'
-                    className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
-                    type='password'
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
                 <Input id='password' name='password' type='password' autoComplete='current-password' required />
               </Field>
