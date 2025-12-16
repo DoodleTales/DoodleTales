@@ -1,58 +1,75 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
 import { DashboardClientProps } from '@/lib/types';
-import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Save, Trash2, ExternalLink } from 'lucide-react';
+import { deleteAPIKey, getUserData, saveAPIKey } from '@/app/api-options/page';
+import { redirect } from 'next/navigation';
 
 export default function APIOptions({ user }: DashboardClientProps) {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
-  //TODO Placeholder state for now
   const [hasKey, setHasKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    //TODO Placeholder logic
-    console.log('Saving API Key:', apiKey);
-    setTimeout(() => {
+    try {
+      await saveAPIKey(apiKey);
       setHasKey(true);
       setIsLoading(false);
       setApiKey('');
-      alert('API Key saved successfully! (Placeholder)');
-    }, 1000);
+      alert('API Key saved successfully!');
+      redirect('/theme-provider');
+    } catch (error) {
+      console.error('failed to save API key:', error);
+    }
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    //TODO Placeholder logic
-    console.log('Updating API Key:', apiKey);
-    setTimeout(() => {
+    try {
+      await saveAPIKey(apiKey);
+      setHasKey(true);
       setIsLoading(false);
       setApiKey('');
-      alert('API Key updated successfully! (Placeholder)');
-    }, 1000);
+      alert('API Key updated successfully!');
+    } catch (error) {
+      console.error('failed to save API key:', error);
+    }
   };
 
   const handleDelete = async () => {
     if (confirm('Are you sure you want to delete your API Key?')) {
       setIsLoading(true);
-      //TODO Placeholder logic
-      console.log('Deleting API Key');
-      setTimeout(() => {
+      try {
+        await deleteAPIKey();
         setHasKey(false);
         setIsLoading(false);
-        alert('API Key deleted successfully! (Placeholder)');
-      }, 1000);
+        alert('API Key deleted successfully!');
+        setApiKey('');
+      } catch (error) {
+        console.error('failed to delete API key:', error);
+      }
     }
   };
+
+  useEffect(() => {
+    const checkKey = async () => {
+      const apiKey = await getUserData();
+      if (apiKey) {
+        setHasKey(true);
+        setApiKey(apiKey);
+      }
+    };
+    checkKey();
+  }, []);
 
   return (
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>

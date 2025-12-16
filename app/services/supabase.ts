@@ -71,13 +71,13 @@ export const SupabaseService = {
     }
   },
 
-  async saveUser(userEmail: string, envData: UserData) {
+  async saveUser(userEmail: string, userData: UserData) {
     try {
       const { data, error } = await supabase
         .schema('next_auth')
         .from('users')
         .upsert(
-          { email: userEmail, name: envData.name, password: envData.password, ai_api_key: envData.ai_api_key },
+          { email: userEmail, name: userData.name, password: userData.password, ai_api_key: userData.ai_api_key },
           { onConflict: 'email' },
         )
         .select()
