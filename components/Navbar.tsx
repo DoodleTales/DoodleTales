@@ -30,7 +30,7 @@ export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = f
         <Navbar01
           logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='lazy' sizes='256px'/>}
           logoHref='/'
-          APIOptionsText='API Options'
+          APIOptionsText='Options'
           APIOptionsHref='/api-options'
           onAPIOptionsClick={handleAPIOptionsClick}
           SignOutText='Sign Out'
