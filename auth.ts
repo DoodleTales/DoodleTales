@@ -56,6 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     secret: process.env.SUPABASE_SERVICE_KEY!,
   }),
   session: {
+    strategy: "jwt",
     maxAge: 24 * 60 * 60, // 24 hours (in seconds).
   },
 });
