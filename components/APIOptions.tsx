@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { DashboardClientProps } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff, Save, Trash2, ExternalLink } from 'lucide-react';
-import { deleteAPIKey, getUserData, saveAPIKey } from '@/app/api-options/page';
+import { Eye, EyeOff, Save, Trash2, ExternalLink, TriangleAlert } from 'lucide-react';
+import { deleteAPIKey, getUserData, saveAPIKey, deleteUser } from '@/app/api-options/page';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { handleSignOut } from '@/app/dashboard/actions';
 
 export default function APIOptions({ user }: DashboardClientProps) {
   const [apiKey, setApiKey] = useState('');
@@ -117,6 +118,34 @@ export default function APIOptions({ user }: DashboardClientProps) {
     }
   };
 
+  const handleDeleteUser = async () => {
+    if (confirm('Are you sure you want to delete your Account? This action cannot be undone.')) {
+      setIsLoading(true);
+      let success = false;
+      try {
+        await deleteUser();
+        success = true;
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        toast.custom((t) => (
+          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+            <div className='flex items-center gap-2'>
+              <div>
+                <div className='font-semibold'>Failed to delete account!</div>
+                <div className='text-sm opacity-90'>Please try again.</div>
+              </div>
+            </div>
+          </div>
+        ));
+      }
+
+      if (success) {
+        await handleSignOut();
+      }
+    }
+  };
+
   useEffect(() => {
     const checkKey = async () => {
       const apiKey = await getUserData();
@@ -178,11 +207,11 @@ export default function APIOptions({ user }: DashboardClientProps) {
 
           {/* API Key Management Panel */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
-            <div className='w-full max-w-md space-y-8'>
+            <div className='w-full max-w-md space-y-6'>
               <div className='text-center'>
-                <h2 className='text-2xl font-bold'>API Key Management</h2>
+                <h2 className='text-2xl font-bold'>Account Management</h2>
                 <p className='text-muted-foreground mt-2'>
-                  Manage your Google AI API key securely.
+                  Manage your Google AI API key securely. 🔑
                 </p>
               </div>
 
@@ -262,6 +291,25 @@ export default function APIOptions({ user }: DashboardClientProps) {
                     </Button>
                   </form>
                 )}
+              </div>
+
+              <div className='border p-6 rounded-lg bg-red-500/10 flex flex-col gap-4'>
+                <div className='flex items-center gap-2 text-red-600'>
+                  <TriangleAlert className='h-5 w-5' />
+                  <span className='font-semibold'>Danger Zone</span>
+                </div>
+                <p className='text-sm text-red-600/80'>
+                  Permanently delete your account and all associated data. This action cannot be undone.
+                </p>
+                <Button
+                  variant='destructive'
+                  onClick={handleDeleteUser}
+                  disabled={isLoading}
+                  className='w-full cursor-pointer bg-red-600 hover:bg-red-700 text-white border border-white'
+                >
+                  <Trash2 className='h-4 w-4 mr-2' />
+                  Delete Account
+                </Button>
               </div>
             </div>
           </section>

@@ -42,3 +42,10 @@ export async function getUserData() {
   const userData = await SupabaseService.getUserByEmail(session.user.email);
   return userData.ai_api_key;
 }
+
+export async function deleteUser() {
+  const session = await auth();
+  if (!session?.user?.email) throw new Error('Unauthorized');
+
+  await SupabaseService.deleteUser(session.user.email);
+}
