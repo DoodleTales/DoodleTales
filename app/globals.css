@@ -41,6 +41,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Custom gradient colors */
+  --color-gradient-pink: rgb(194, 61, 94);
+  --color-gradient-gold: rgb(225, 181, 83);
+
   --animate-shake: shake 0.3s ease-in-out;
 
   @keyframes shake {

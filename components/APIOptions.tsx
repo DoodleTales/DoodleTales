@@ -8,13 +8,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Save, Trash2, ExternalLink } from 'lucide-react';
 import { deleteAPIKey, getUserData, saveAPIKey } from '@/app/api-options/page';
-import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function APIOptions({ user }: DashboardClientProps) {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [hasKey, setHasKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +26,28 @@ export default function APIOptions({ user }: DashboardClientProps) {
       setHasKey(true);
       setIsLoading(false);
       setApiKey('');
-      alert('API Key saved successfully!');
-      redirect('/theme-provider');
+      toast.custom((t) => (
+        <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-2'>
+            <div>
+              <div className='font-semibold'>API key successfully saved!</div>
+              <div className='text-sm opacity-90'>You can now use the API key to access the API.</div>
+            </div>
+          </div>
+        </div>
+      ));
+      router.push('/theme-provider');
     } catch (error) {
-      console.error('failed to save API key:', error);
+      toast.custom((t) => (
+        <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-2'>
+            <div>
+              <div className='font-semibold'>Failed to save the API key!</div>
+              <div className='text-sm opacity-90'>Please try again.</div>
+            </div>
+          </div>
+        </div>
+      ));
     }
   };
 
@@ -39,9 +59,28 @@ export default function APIOptions({ user }: DashboardClientProps) {
       setHasKey(true);
       setIsLoading(false);
       setApiKey('');
-      alert('API Key updated successfully!');
+      toast.custom((t) => (
+        <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-2'>
+            <div>
+              <div className='font-semibold'>API key successfully updated!</div>
+              <div className='text-sm opacity-90'>You can now use the API key to access the API.</div>
+            </div>
+          </div>
+        </div>
+      ));
+      router.push('/theme-provider');
     } catch (error) {
-      console.error('failed to save API key:', error);
+      toast.custom((t) => (
+        <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-2'>
+            <div>
+              <div className='font-semibold'>Failed to update the API key!</div>
+              <div className='text-sm opacity-90'>Please try again.</div>
+            </div>
+          </div>
+        </div>
+      ));
     }
   };
 
@@ -52,10 +91,28 @@ export default function APIOptions({ user }: DashboardClientProps) {
         await deleteAPIKey();
         setHasKey(false);
         setIsLoading(false);
-        alert('API Key deleted successfully!');
+        toast.custom((t) => (
+          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+            <div className='flex items-center gap-2'>
+              <div>
+                <div className='font-semibold'>API key successfully deleted!</div>
+                <div className='text-sm opacity-90'>You can now add an API key.</div>
+              </div>
+            </div>
+          </div>
+        ));
         setApiKey('');
       } catch (error) {
-        console.error('failed to delete API key:', error);
+        toast.custom((t) => (
+          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+            <div className='flex items-center gap-2'>
+              <div>
+                <div className='font-semibold'>Failed to delete the API key!</div>
+                <div className='text-sm opacity-90'>Please try again.</div>
+              </div>
+            </div>
+          </div>
+        ));
       }
     }
   };

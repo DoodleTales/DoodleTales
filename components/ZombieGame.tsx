@@ -33,7 +33,7 @@ export default function ZombieGame({ messages, isLoading }: ZombieGameProps) {
                   className='w-full h-auto object-cover'
                   width={500}
                   height={500}
-                  loading='eager'
+                  loading='lazy'
                 />
               </div>
             )}

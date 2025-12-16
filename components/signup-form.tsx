@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { signUp } from '@/app/services/auth';
 import { useState } from 'react';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 
 export function SignupForm({
   className,
@@ -63,6 +63,7 @@ export function SignupForm({
                     name='user'
                     type='text'
                     placeholder='User name'
+                    autoComplete='username'
                     required
                   />
                 </Field>
@@ -73,12 +74,13 @@ export function SignupForm({
                     name='email'
                     type='email'
                     placeholder='user@email.com'
+                    autoComplete='email'
                     required
                   />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor='password'>Password</FieldLabel>
-                  <Input id='password' name='password' type='password' required />
+                  <Input id='password' name='password' type='password' required autoComplete='new-password' />
                 </Field>
                 {error && <div className='text-red-500 text-sm'>{error}</div>}
                 <Field>
