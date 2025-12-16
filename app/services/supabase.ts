@@ -4,7 +4,7 @@ import { UserData } from './dbtypes';
 
 // Ensure these validation variables are present in your .env.local file
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.warn('Missing Supabase environment variables. Please check your .env.local file.');
@@ -16,9 +16,10 @@ export const SupabaseService = {
   async getUserByEmail(userEmail: string) {
     try {
       const { data, error } = await supabase
+        .schema('next_auth')
         .from('users')
         .select('*')
-        .eq('user_email', userEmail)
+        .eq('email', userEmail)
         .single();
 
       if (error) {
@@ -36,9 +37,10 @@ export const SupabaseService = {
     try {
       console.log('Creating user env:', envData);
       const { data, error } = await supabase
+        .schema('next_auth')
         .from('users')
         .insert([
-          { user_email: envData.user_email, user_name: envData.user_name, user_password: envData.user_password }
+          { email: envData.email, name: envData.name, password: envData.password }
         ])
         .select()
         .single();
@@ -54,9 +56,10 @@ export const SupabaseService = {
   async updateUser(userEmail: string, envData: UserData) {
     try {
       const { data, error } = await supabase
+        .schema('next_auth')
         .from('users')
-        .update({ user_name: envData.user_name, user_password: envData.user_password })
-        .eq('user_email', userEmail)
+        .update({ name: envData.name, password: envData.password, ai_api_key: envData.ai_api_key })
+        .eq('email', userEmail)
         .select()
         .single();
 
@@ -71,10 +74,11 @@ export const SupabaseService = {
   async saveUser(userEmail: string, envData: UserData) {
     try {
       const { data, error } = await supabase
+        .schema('next_auth')
         .from('users')
         .upsert(
-          { user_email: userEmail, data: envData },
-          { onConflict: 'user_ email' }
+          { email: userEmail, name: envData.name, password: envData.password, ai_api_key: envData.ai_api_key },
+          { onConflict: 'email' }
         )
         .select()
         .single();

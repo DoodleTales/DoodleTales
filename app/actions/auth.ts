@@ -25,8 +25,6 @@ export async function signUp(formData: FormData) {
 
   const number = process.env.SCRIPT_NUMBER;
 
-  console.log('Number:', Number(number));
-
   if (!email || !password || !name) {
     throw new Error('Missing fields');
   }
@@ -37,11 +35,10 @@ export async function signUp(formData: FormData) {
 
   const hashedPassword = await bcrypt.hash(password, Number(number));
   const hashedPasswordSlice = hashedPassword.slice(7);
-  console.log('Hashed password:', hashedPasswordSlice);
   const userData: UserData = {
-    user_name: name,
-    user_email: email,
-    user_password: hashedPasswordSlice,
+    name: name,
+    email: email,
+    password: hashedPasswordSlice,
   };
 
   const { error } = await SupabaseService.createUser(email, userData);

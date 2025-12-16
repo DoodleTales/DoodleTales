@@ -4,6 +4,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { SupabaseService } from '@/app/services/supabase';
 import bcrypt from 'bcrypt';
+import { SupabaseAdapter } from '@auth/supabase-adapter';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -34,8 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           console.log('SCRIPT_KEY is not set');
           return null;
         }
-        const securePassword = scriptKey.concat(user.user_password as string);
-        console.log('Secure password:', securePassword);
+        const securePassword = scriptKey.concat(user.password as string);
         const passwordsMatch = await bcrypt.compare(password as string, securePassword);
 
         if (!passwordsMatch) {
@@ -44,11 +44,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         return {
-          id: user.user_id,
-          name: user.user_name,
-          email: user.user_email,
+          id: user.id,
+          name: user.name,
+          email: user.email,
         };
       },
     }),
   ],
+  adapter: SupabaseAdapter({
+    url: process.env.SUPABASE_URL!,
+    secret: process.env.SUPABASE_SERVICE_KEY!,
+  }),
+  session: {
+    maxAge: 24 * 60 * 60, // 24 hours (in seconds).
+  },
 });
