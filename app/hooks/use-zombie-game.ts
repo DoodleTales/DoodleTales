@@ -1,9 +1,12 @@
 import { useCallback, useState, useEffect } from 'react';
 import type { GameMessage } from '@/lib/types';
+import { useTheme } from '@/app/context/themeContext';
 
 export function useZombieGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState('');
+  const theme = useTheme();
 
   const startGame = useCallback(async () => {
     setIsLoading(true);
@@ -13,6 +16,7 @@ export function useZombieGame() {
         method: 'POST',
         body: JSON.stringify({
           isStarting: true,
+          theme: theme.theme,
         }),
       });
 
@@ -31,6 +35,7 @@ export function useZombieGame() {
         imageLoading: true,
       };
 
+      setTitle(data.title);
       setMessages([newMessage]);
       generateImage(messageId, data.imagePrompt);
 
@@ -131,6 +136,7 @@ export function useZombieGame() {
   };
 
   return {
+    title,
     messages,
     isLoading,
     startGame,

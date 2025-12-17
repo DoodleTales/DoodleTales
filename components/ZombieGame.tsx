@@ -3,15 +3,16 @@ import { GameMessage } from '@/lib/types';
 import Image from 'next/image';
 
 interface ZombieGameProps {
+  title: string;
   messages: GameMessage[];
   isLoading: boolean;
 }
 
-export default function ZombieGame({ messages, isLoading }: ZombieGameProps) {
+export default function ZombieGame({title, messages, isLoading }: ZombieGameProps) {
   return (
     <div className='flex flex-col h-full bg-background'>
       <div className='p-4 border-b bg-muted/20'>
-        <h2 className='text-lg font-semibold'>Zombie Apocalypse</h2>
+        <h2 className='text-lg font-semibold'>{title}</h2>
       </div>
 
       <div className='flex-1 overflow-y-auto p-4 space-y-4'>

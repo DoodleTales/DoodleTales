@@ -17,6 +17,7 @@ import { FaPaperPlane } from 'react-icons/fa';
 import { Pen, Eraser, Palette, Trash } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
+import ZombieGame from './ZombieGame';
 
 const COLORS = [
   '#000000',
@@ -27,7 +28,7 @@ const COLORS = [
 ];
 
 export default function Game({ user }: GameClientProps) {
-  const { messages, isLoading, submitImage } = useZombieGame();
+  const {title, messages, isLoading, submitImage } = useZombieGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
@@ -90,7 +91,7 @@ export default function Game({ user }: GameClientProps) {
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
           {/* ZombieGame Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
-            {/*<ZombieGame messages={messages} isLoading={isLoading} />*/}
+            <ZombieGame title={title} messages={messages} isLoading={isLoading} />
           </section>
           {/* SketchCanvas Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>

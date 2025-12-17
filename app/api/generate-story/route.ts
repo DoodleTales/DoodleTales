@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       apiKey: apiKey,
     });
 
-    const { userMessage, conversationHistory, isStarting, theme }: GenerateStoryRequest = await req.json();
+    const { playerAction, conversationHistory, isStarting, theme }: GenerateStoryRequest = await req.json();
 
     let prompt: string = '';
 
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       const historyText = conversationHistory.map(
         (message) => `message.role: ${message.role}: message.content: ${message.content}`).join('\n');
 
-      prompt = GAME_PROMPTS.CONTINUE_STORY(historyText, userMessage);
+      prompt = GAME_PROMPTS.CONTINUE_STORY(historyText, playerAction);
     }
 
     const { text } = await generateText({
@@ -47,12 +47,15 @@ export async function POST(req: NextRequest) {
       prompt,
     });
 
-    const [narrative, imagePrompt] = text.split(GAME_CONFIG.IMAGE.SEPARATOR);
+    // const [narrative, imagePrompt] = text.split(GAME_CONFIG.IMAGE.SEPARATOR);
 
+    console.log('Incoming JSON:', text);
+
+    const {title, narrative, imagePrompt } = JSON.parse(text);
     console.log('Generated story:', narrative);
     console.log('Generated image prompt:', imagePrompt);
-
-    return NextResponse.json({ narrative, imagePrompt });
+    console.log('Generated title:', title);
+    return NextResponse.json({ title, narrative, imagePrompt });
 
   } catch (error) {
     console.error('Error generating story:', error);

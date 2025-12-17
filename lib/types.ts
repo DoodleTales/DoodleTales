@@ -5,6 +5,7 @@ export interface GameMessage {
   content: string;
   image?: string;
   imageLoading?: boolean;
+  title?: string;
 }
 
 export interface GeneratedImage {
@@ -18,7 +19,7 @@ export interface conversationMessage {
 }
 
 export interface GenerateStoryRequest {
-  userMessage: string;
+  playerAction: string;
   conversationHistory: conversationMessage[];
   isStarting: boolean;
   theme?: string;
