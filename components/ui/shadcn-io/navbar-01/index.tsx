@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { GameClientProps } from '@/lib/types';
+import { Brush, Settings } from 'lucide-react';
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -271,7 +272,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 if (onGameClick) onGameClick();
                 }}
               >
-              {GameText}
+              <Brush className="h-4 w-4"/>{GameText}
             </Button>
             )}
             {APIOptionsText && !isAPIOptionsDisabled && (
@@ -288,7 +289,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 if (onAPIOptionsClick && !isAPIOptionsDisabled) onAPIOptionsClick();
                 }}
               >
-              {APIOptionsText}
+              <Settings className="h-4 w-4"/>{APIOptionsText}
             </Button>
             )}
             {SignOutText && (

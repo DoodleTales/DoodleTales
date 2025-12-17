@@ -17,12 +17,16 @@ export default function ThemeProvider({ user }: GameClientProps) {
   const { setTheme: setContextTheme } = useTheme();
   const [theme, setTheme] = useState('');
   const [submitFailed, setSubmitFailed] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkKey = async () => {
       const apiKey = await hasUserKey();
       if (!apiKey) {
         router.replace('/api-options');
+      }
+      else{
+        setLoading(false);
       }
     };
     checkKey();
@@ -35,14 +39,14 @@ export default function ThemeProvider({ user }: GameClientProps) {
       setTimeout(() => setSubmitFailed(false), 500);
       return;
     }
-    //! send theme to GamePage
+    //* Send theme to GamePage
     console.log('Theme submitted:', theme);
     setContextTheme(theme);
     router.replace('/game');
   };
 
   return (
-    <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
+    (!loading) ? <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
       <Navbar isAuthenticated={true} user={user} />
       <div className='p-8 flex flex-col flex-1 min-h-0 items-center justify-center'>
         {/* Element 1: BlurText (Top Section) */}
@@ -87,6 +91,8 @@ export default function ThemeProvider({ user }: GameClientProps) {
           />
         </div>
       </div>
+    </div> : <div className='fixed inset-0 flex items-center justify-center bg-background text-foreground'>
+      <p className='text-2xl font-medium'>Loading...</p>
     </div>
   );
 }
