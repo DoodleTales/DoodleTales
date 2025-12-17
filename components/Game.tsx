@@ -26,7 +26,7 @@ const COLORS = [
   '#eab308',
 ];
 
-export default function Dashboard({ user }: DashboardClientProps) {
+export default function Game({ user }: DashboardClientProps) {
   const { messages, isLoading, submitImage } = useZombieGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');

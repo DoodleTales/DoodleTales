@@ -9,6 +9,8 @@ import BlurText from './BlurText';
 
 import Lottie from 'lottie-react';
 import animationData from '@/public/animations/Learning Drawing.json';
+import GamePage from '@/app/game/page';
+
 
 export default function ThemeProvider({ user }: DashboardClientProps) {
   const [theme, setTheme] = useState('');
@@ -21,8 +23,9 @@ export default function ThemeProvider({ user }: DashboardClientProps) {
       setTimeout(() => setSubmitFailed(false), 500);
       return;
     }
-    //TODO Placeholder function to send theme to API
+    //! send theme to GamePage
     console.log('Theme submitted:', theme);
+    return GamePage(theme);
   };
 
   return (

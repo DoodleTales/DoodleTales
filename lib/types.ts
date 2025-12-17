@@ -37,6 +37,6 @@ export interface DashboardClientProps {
   user: {
     name?: string | null;
     email?: string | null;
-    image?: string | null;
+    ai_api_key?: string | null;
   };
 }

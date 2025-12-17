@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { DashboardClientProps } from '@/lib/types';
 
-import { handleSignOut } from '@/app/dashboard/actions';
+import { handleSignOut } from '@/app/game/actions';
 
 export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = false }: { isAuthenticated: boolean, user?: DashboardClientProps['user']; isAPIOptionsDisabled?: boolean; }) {
 

@@ -10,7 +10,7 @@ import { Eye, EyeOff, Save, Trash2, ExternalLink, TriangleAlert } from 'lucide-r
 import { deleteAPIKey, getUserData, saveAPIKey, deleteUser } from '@/app/api-options/page';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { handleSignOut } from '@/app/dashboard/actions';
+import { handleSignOut } from '@/app/game/actions';
 
 export default function APIOptions({ user }: DashboardClientProps) {
   const [apiKey, setApiKey] = useState('');
