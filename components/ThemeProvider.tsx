@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,12 +10,23 @@ import Lottie from 'lottie-react';
 import animationData from '@/public/animations/Learning Drawing.json';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
+import { hasUserKey } from '@/app/api-options/page';
 
 export default function ThemeProvider({ user }: GameClientProps) {
   const router = useRouter();
   const { setTheme: setContextTheme } = useTheme();
   const [theme, setTheme] = useState('');
   const [submitFailed, setSubmitFailed] = useState(false);
+
+  useEffect(() => {
+    const checkKey = async () => {
+      const apiKey = await hasUserKey();
+      if (!apiKey) {
+        router.replace('/api-options');
+      }
+    };
+    checkKey();
+  });
 
   const handleSubmitTheme = (e: React.FormEvent) => {
     e.preventDefault();

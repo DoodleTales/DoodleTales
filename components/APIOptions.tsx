@@ -7,7 +7,7 @@ import { GameClientProps } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Save, Trash2, ExternalLink, TriangleAlert } from 'lucide-react';
-import { deleteAPIKey, getUserData, saveAPIKey, deleteUser } from '@/app/api-options/page';
+import { deleteAPIKey, getUserData, saveAPIKey, deleteUser, hasUserKey } from '@/app/api-options/page';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { handleSignOut } from '@/app/game/actions';
@@ -148,7 +148,7 @@ export default function APIOptions({ user }: GameClientProps) {
 
   useEffect(() => {
     const checkKey = async () => {
-      const apiKey = await getUserData();
+      const apiKey = await hasUserKey();
       if (apiKey) {
         setHasKey(true);
       }

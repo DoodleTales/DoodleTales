@@ -49,3 +49,11 @@ export async function deleteUser() {
 
   await SupabaseService.deleteUser(session.user.email);
 }
+
+export async function hasUserKey() {
+  const session = await auth();
+  if (!session?.user?.email) return false;
+
+  const userData = await SupabaseService.getUserByEmail(session.user.email);
+  return !!userData.ai_api_key;
+}
