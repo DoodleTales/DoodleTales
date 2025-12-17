@@ -3,7 +3,6 @@ import { generateText } from 'ai';
 import { type NextRequest, NextResponse } from 'next/server';
 import { GAME_PROMPTS } from '@/lib/prompts';
 import { GenerateStoryRequest } from '@/lib/types';
-import { GAME_CONFIG } from '@/lib/const';
 import { auth } from '@/auth';
 import { SupabaseService } from '@/app/services/supabase';
 import { decrypt } from '@/lib/crypto';
@@ -56,11 +55,8 @@ export async function POST(req: NextRequest) {
       .replace(/```/g, '')
       .trim();
 
-    const {title, narrative, imagePrompt } = JSON.parse(jsonString);
-    console.log('Generated story:', narrative);
-    console.log('Generated image prompt:', imagePrompt);
-    console.log('Generated title:', title);
-    return NextResponse.json({ title, narrative, imagePrompt });
+    const {title, player, narrative, imagePrompt } = JSON.parse(jsonString);
+    return NextResponse.json({ title, player, narrative, imagePrompt });
 
   } catch (error) {
     console.error('Error generating story:', error);

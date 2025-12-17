@@ -95,7 +95,7 @@ export function useGame() {
   const submitImage = async (base64Image: string) => {
     if (isLoading) return;
 
-    const userMessage: GameMessage = {
+    const playerAction: GameMessage = {
       id: crypto.randomUUID(),
       type: 'user',
       content: 'Sent a drawing',
@@ -103,14 +103,14 @@ export function useGame() {
     };
 
     setIsLoading(true);
-    setMessages(prevMessages => [...prevMessages, userMessage]);
+    setMessages(prevMessages => [...prevMessages, playerAction]);
 
     try {
       const response = await fetch('/api/generate-story', {
         method: 'POST',
         body: JSON.stringify({
           //! Send image to backend, constrain size
-          userImage: base64Image,
+          playerAction: playerAction,
           conversationHistory: messages,
           isStarting: false,
         }),
@@ -129,8 +129,14 @@ export function useGame() {
         content: data.narrative,
         imageLoading: true,
       };
+      const playerMessage: GameMessage = {
+        id: crypto.randomUUID(),
+        type: 'user',
+        content: data.player,
+        imageLoading: false,
+      };
 
-      setMessages(prevMessages => [...prevMessages, assistantMessage]);
+      setMessages(prevMessages => [...prevMessages,playerMessage, assistantMessage]);
       generateImage(messageId, data.imagePrompt);
     } catch (error) {
       console.error('Error generating story 🚨: ', error);
