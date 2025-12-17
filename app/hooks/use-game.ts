@@ -109,10 +109,11 @@ export function useGame() {
       const response = await fetch('/api/generate-story', {
         method: 'POST',
         body: JSON.stringify({
-          //! Send image to backend, constrain size
-          playerAction: playerAction,
+          //! Send image to backend
+          playerAction: playerAction,//* Here goes the image
           conversationHistory: messages,
           isStarting: false,
+          //! Do we need to add theme?
         }),
       });
 

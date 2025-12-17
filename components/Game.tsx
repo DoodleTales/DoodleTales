@@ -75,6 +75,7 @@ export default function Game({ user }: GameClientProps) {
 
           //TODO Avoid showing the image directly in the chat view, we need to process it first and show the AI processed image
           const base64Data = image.replace(/^data:image\/png;base64,/, '');
+          console.log(base64Data);
           await submitImage(base64Data);
           canvasRef.current.clearCanvas();
         }
