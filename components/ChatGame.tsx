@@ -2,13 +2,13 @@
 import { GameMessage } from '@/lib/types';
 import Image from 'next/image';
 
-interface ZombieGameProps {
+interface chatGameProps {
   title: string;
   messages: GameMessage[];
   isLoading: boolean;
 }
 
-export default function ZombieGame({title, messages, isLoading }: ZombieGameProps) {
+export default function ChatGame({title, messages, isLoading }: chatGameProps) {
   return (
     <div className='flex flex-col h-full bg-background'>
       <div className='p-4 border-b bg-muted/20'>

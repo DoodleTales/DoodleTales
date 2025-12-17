@@ -30,7 +30,7 @@ export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = f
         <Navbar01
           logo={<Image src={DoodleTalesLogo} alt='DoodleTales Logo' className='h-15 w-auto shrink-0' loading='lazy' sizes='256px'/>}
           logoHref='/'
-          GameText='Play!'
+          GameText='Play'
           GameHref='/game'
           onGameClick={handleGame}
           APIOptionsText='Options'

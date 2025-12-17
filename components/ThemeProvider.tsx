@@ -30,7 +30,7 @@ export default function ThemeProvider({ user }: GameClientProps) {
       }
     };
     checkKey();
-  });
+  }, []);
 
   const handleSubmitTheme = (e: React.FormEvent) => {
     e.preventDefault();

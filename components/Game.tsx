@@ -12,12 +12,12 @@ import {
 } from '@/components/ui/popover';
 
 import { GameClientProps } from '@/lib/types';
-import { useZombieGame } from '@/app/hooks/use-zombie-game';
+import { useGame } from '@/app/hooks/use-game';
 import { FaPaperPlane } from 'react-icons/fa';
 import { Pen, Eraser, Palette, Trash } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
-import ZombieGame from './ZombieGame';
+import ChatGame from '@/components/ChatGame';
 
 const COLORS = [
   '#000000',
@@ -28,7 +28,7 @@ const COLORS = [
 ];
 
 export default function Game({ user }: GameClientProps) {
-  const {title, messages, isLoading, submitImage } = useZombieGame();
+  const {title, messages, isLoading, submitImage } = useGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
@@ -89,9 +89,9 @@ export default function Game({ user }: GameClientProps) {
       <Navbar isAuthenticated={true} user={user}/>
       <div className='p-8 flex flex-col flex-1 min-h-0'>
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
-          {/* ZombieGame Section */}
+          {/* chatGame Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
-            <ZombieGame title={title} messages={messages} isLoading={isLoading} />
+            <ChatGame title={title} messages={messages} isLoading={isLoading} />
           </section>
           {/* SketchCanvas Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>

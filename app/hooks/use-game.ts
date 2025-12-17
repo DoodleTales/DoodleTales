@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect, useRef } from 'react';
 import type { GameMessage } from '@/lib/types';
 import { useTheme } from '@/app/context/themeContext';
 
-export function useZombieGame() {
+export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
