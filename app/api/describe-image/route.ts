@@ -1,0 +1,43 @@
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateText } from 'ai';
+import { type NextRequest, NextResponse } from 'next/server';
+import { GAME_PROMPTS } from '@/lib/prompts';
+import { DescribeImageRequest, GenerateStoryRequest } from '@/lib/types';
+import { auth } from '@/auth';
+import { SupabaseService } from '@/app/services/supabase';
+import { decrypt } from '@/lib/crypto';
+
+export async function POST(req: NextRequest) {
+  try {
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const userData = await SupabaseService.getUserByEmail(session.user.email);
+    const apiKey = userData?.ai_api_key ? decrypt(userData.ai_api_key) : process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API Key not found. Please set it in API Options' }, { status: 400 });
+    }
+
+    const google = createGoogleGenerativeAI({
+      apiKey: apiKey,
+    });
+
+    const { image }: DescribeImageRequest = await req.json();
+
+    const prompt = GAME_PROMPTS.DESCRIBE_IMAGE(image);
+
+    const { text } = await generateText({
+      model: google('gemini-2.5-flash'),
+      prompt,
+    });
+
+    return NextResponse.json({ text });
+
+  } catch (error) {
+    console.error('Error generating story:', error);
+    return NextResponse.json({error: 'Failed to generate story'}, {status: 500});
+  }
+}

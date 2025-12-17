@@ -95,52 +95,45 @@ export function useGame() {
   const submitImage = async (base64Image: string) => {
     if (isLoading) return;
 
-    const playerAction: GameMessage = {
-      id: crypto.randomUUID(),
-      type: 'user',
-      content: 'Sent a drawing',
-      image: base64Image,
-    };
-
-    setIsLoading(true);
-    setMessages(prevMessages => [...prevMessages, playerAction]);
+    //* Lets do it step by step
+    //* 1. Send image to backend to get it described
+    //* 2. Get response
+    //* 3. Update messages
+    //* 4. Generate image
 
     try {
-      const response = await fetch('/api/generate-story', {
+      const response = await fetch('/api/describe-image', {
         method: 'POST',
         body: JSON.stringify({
-          //! Send image to backend
-          playerAction: playerAction,//* Here goes the image
-          conversationHistory: messages,
-          isStarting: false,
-          //! Do we need to add theme?
+          image: base64Image,
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate story 🚨');
+        throw new Error('Failed to describe image 👀');
       }
 
       const data = await response.json();
+      console.log(data);
       const messageId = crypto.randomUUID();
 
-      const assistantMessage: GameMessage = {
-        id: messageId,
-        type: 'assistant',
-        content: data.narrative,
-        imageLoading: true,
-      };
-      const playerMessage: GameMessage = {
-        id: crypto.randomUUID(),
-        type: 'user',
-        content: data.player,
-        imageLoading: false,
-      };
+      // const assistantMessage: GameMessage = {
+      //   id: messageId,
+      //   type: 'assistant',
+      //   content: data.narrative,
+      //   imageLoading: true,
+      // };
+      // const playerMessage: GameMessage = {
+      //   id: crypto.randomUUID(),
+      //   type: 'user',
+      //   content: data.player,
+      //   imageLoading: false,
+      // };
 
-      setMessages(prevMessages => [...prevMessages,playerMessage, assistantMessage]);
-      generateImage(messageId, data.imagePrompt);
+      // setMessages(prevMessages => [...prevMessages,playerMessage, assistantMessage]);
+      // generateImage(messageId, data.imagePrompt);
     } catch (error) {
-      console.error('Error generating story 🚨: ', error);
+      console.error('Error describing image 👀: ', error);
     } finally {
       setIsLoading(false);
     }

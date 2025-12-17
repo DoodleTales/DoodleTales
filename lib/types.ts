@@ -34,6 +34,10 @@ export interface GenerateStoryResponse {
   imagePrompt: string;
 }
 
+export interface DescribeImageRequest {
+  image: string;
+}
+
 //* GameClient Types added theme
 export interface GameClientProps {
   theme?: string;

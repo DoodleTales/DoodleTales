@@ -116,7 +116,23 @@ export const GAME_PROMPTS = {
 
   based on the following prompt:
   ${prompt}
+`,
+  DESCRIBE_IMAGE: (image: string) => `You are a film director describing a live-action stunt.
 
-  The image should be in landscape format (16:9 ratio).`,
+  Your Task: Look at the shapes in this doodle and describe them as real-world physical actions. Transform the simple marks into a clear, direct movie scene.
+
+  The Rules of Interpretation:
+    - Be Literal: If there is a scribble, it is a cloud of dust or a splash of water. If there is a stick figure, it is a person in motion.
+    - Identify the Main Action: State exactly what is happening in one clear sentence.
+    - Focus on Physical Movement: Use simple, heavy verbs: smashing, running, falling, flying, exploding, glowing.
+    - Scale: Mention if something looks "huge" or "tiny" compared to other things in the image.
+    - Ignore the Medium: Do not mention paint, markers, or paper. Describe the scene as if it were happening in real life.
+
+  Response Structure:
+    - The Core Action: A one-sentence summary of the main event.
+    - The Scene Details: Describe the objects, what they are doing, and how the "light" or "energy" looks.
+    - The Impact: Describe what is happening to the ground or the air around the action.
+
+  Describe the action in this scene: ${image}`,
 };
 
