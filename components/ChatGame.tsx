@@ -12,6 +12,9 @@ export default function ChatGame({title, messages, isLoading }: chatGameProps) {
   return (
     <div className='flex flex-col h-full bg-background'>
       <div className='p-4 border-b bg-muted/20'>
+        {title === '' && (
+          <h2 className='text-lg font-semibold opacity-70 animate-pulse'>Loading title...</h2>
+        )}
         <h2 className='text-lg font-semibold'>{title}</h2>
       </div>
 
