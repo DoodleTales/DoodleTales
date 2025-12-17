@@ -194,12 +194,10 @@ export default function APIOptions({ user }: GameClientProps) {
                   <li>
                     Copy the generated key and paste it in the panel to the right.
                   </li>
+                  <li>
+                    Ensure billing is enabled for your Google Cloud project associated with the API key.
+                  </li>
                 </ol>
-
-                <h3 className='text-xl font-semibold mt-6'>Enable Billing (Recommended)</h3>
-                <p>
-                  For higher rate limits and production usage, ensure billing is enabled for your Google Cloud project associated with the API key.
-                </p>
               </div>
             </div>
           </section>
@@ -235,6 +233,7 @@ export default function APIOptions({ user }: GameClientProps) {
                             placeholder='Paste new API key here'
                             value={apiKey}
                             onChange={(e) => setApiKey(e.target.value)}
+                            autoComplete='off'
                             required
                           />
                           <Button

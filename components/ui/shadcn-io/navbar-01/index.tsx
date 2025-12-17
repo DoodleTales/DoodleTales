@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -92,7 +92,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   onAPIOptionsClick?: () => void;
   onSignOutClick?: () => void;
   darkModeToggle?: React.ReactNode;
-  user?: DashboardClientProps['user'];
+  user?: GameClientProps['user'];
   isAPIOptionsDisabled?: boolean;
 }
 

@@ -6,11 +6,11 @@ import Image from 'next/image';
 import DarkModeToggle from './DarkModeToggle';
 import { useRouter } from 'next/navigation';
 
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 
 import { handleSignOut } from '@/app/game/actions';
 
-export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = false }: { isAuthenticated: boolean, user?: DashboardClientProps['user']; isAPIOptionsDisabled?: boolean; }) {
+export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = false }: { isAuthenticated: boolean, user?: GameClientProps['user']; isAPIOptionsDisabled?: boolean; }) {
 
   const router = useRouter();
   const handleAPIOptionsClick = () => {

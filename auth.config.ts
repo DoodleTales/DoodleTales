@@ -8,15 +8,15 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnSignup = nextUrl.pathname.startsWith('/signup');
-      const isOnDashboard = nextUrl.pathname.startsWith('/');
+      const isOnGame = nextUrl.pathname.startsWith('/');
 
       if (isOnSignup) return true;
 
-      if (isOnDashboard) {
+      if (isOnGame) {
         if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+        return false; //* Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
-        // Redirect to dashboard if already logged in and on home page
+        //* Redirect to Game if already logged in and on home page
         if (nextUrl.pathname === '/') {
           return Response.redirect(new URL('/', nextUrl));
         }
@@ -24,5 +24,5 @@ export const authConfig = {
       return true;
     },
   },
-  providers: [], // Add providers with an empty array for now
+  providers: [], //* Add providers with an empty array for now
 } satisfies NextAuthConfig;
