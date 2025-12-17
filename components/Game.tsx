@@ -3,7 +3,6 @@
 import { useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import Navbar from './Navbar';
-import ZombieGame from './ZombieGame';
 import SketchCanvas from '@/components/SketchCanvas';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,11 +11,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 import { useZombieGame } from '@/app/hooks/use-zombie-game';
-
 import { FaPaperPlane } from 'react-icons/fa';
 import { Pen, Eraser, Palette, Trash } from 'lucide-react';
+import { redirect, useSearchParams } from 'next/navigation';
+import { useTheme } from '@/app/context/themeContext';
 
 const COLORS = [
   '#000000',
@@ -26,13 +26,18 @@ const COLORS = [
   '#eab308',
 ];
 
-export default function Game({ user }: DashboardClientProps) {
+export default function Game({ user }: GameClientProps) {
   const { messages, isLoading, submitImage } = useZombieGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(10);
   const [sendFailed, setSendFailed] = useState(false);
+  const { theme } = useTheme();
+
+  if (!theme || Array.isArray(theme)) {
+    redirect('/theme-provider');
+  }
 
   const handlePenClick = () => {
     setEraseMode(false);
@@ -85,7 +90,7 @@ export default function Game({ user }: DashboardClientProps) {
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
           {/* ZombieGame Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
-            <ZombieGame messages={messages} isLoading={isLoading} />
+            {/*<ZombieGame messages={messages} isLoading={isLoading} />*/}
           </section>
           {/* SketchCanvas Section */}
           <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>

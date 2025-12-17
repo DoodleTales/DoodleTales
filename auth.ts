@@ -4,8 +4,8 @@ import GitHub from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { SupabaseService } from '@/app/services/supabase';
-import bcrypt from 'bcrypt';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
+import { decrypt } from './lib/crypto';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -36,10 +36,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           console.log('SCRIPT_KEY is not set');
           return null;
         }
-        const securePassword = scriptKey.concat(user.password as string);
-        const passwordsMatch = await bcrypt.compare(password as string, securePassword);
-
-        if (!passwordsMatch) {
+        const securePassword = decrypt(user.password as string);
+        
+        if (securePassword !== password) {
           console.log('Invalid password');
           return null;
         }

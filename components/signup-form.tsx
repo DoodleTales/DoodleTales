@@ -18,6 +18,9 @@ import { Input } from '@/components/ui/input';
 import { signUp } from '@/app/services/auth';
 import { useState } from 'react';
 import Link from 'next/link';
+import { SignUpSchema } from '@/lib/schemas';
+import { ZodError } from 'zod';
+import { toast } from 'sonner';
 
 export function SignupForm({
   className,
@@ -25,17 +28,35 @@ export function SignupForm({
 }: React.ComponentProps<'div'>) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   async function handleSubmit(formData: FormData) {
     setError(null);
     setSuccess(false);
+    setFieldErrors({});
+
+    const rawData = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      user: formData.get('user') as string,
+    };
 
     try {
+      SignUpSchema.parse(rawData);
       await signUp(formData);
       setSuccess(true);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to sign up. Please try again.');
+    } catch (error:any) {
+      console.log(error);
+      toast.custom((t) => (
+        <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-2'>
+            <div>
+              <div className='font-semibold'>Error on sign up!</div>
+              <div className='text-sm opacity-90'>Password must be at least 8 characters long and contain at least one uppercase, one lowercase, one number and one special character.</div>
+            </div>
+          </div>
+        </div>
+      ));
     }
   }
 
@@ -66,6 +87,7 @@ export function SignupForm({
                     autoComplete='username'
                     required
                   />
+                   {fieldErrors.user && <p className="text-red-500 text-sm mt-1">{fieldErrors.user}</p>}
                 </Field>
                 <Field>
                   <FieldLabel htmlFor='email'>Email</FieldLabel>
@@ -77,10 +99,12 @@ export function SignupForm({
                     autoComplete='email'
                     required
                   />
+                  {fieldErrors.email && <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>}
                 </Field>
                 <Field>
                   <FieldLabel htmlFor='password'>Password</FieldLabel>
                   <Input id='password' name='password' type='password' required autoComplete='new-password' />
+                  {fieldErrors.password && <p className="text-red-500 text-sm mt-1">{fieldErrors.password}</p>}
                 </Field>
                 {error && <div className='text-red-500 text-sm'>{error}</div>}
                 <Field>

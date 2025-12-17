@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Save, Trash2, ExternalLink, TriangleAlert } from 'lucide-react';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { handleSignOut } from '@/app/game/actions';
 
-export default function APIOptions({ user }: DashboardClientProps) {
+export default function APIOptions({ user }: GameClientProps) {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [hasKey, setHasKey] = useState(false);
@@ -151,7 +151,6 @@ export default function APIOptions({ user }: DashboardClientProps) {
       const apiKey = await getUserData();
       if (apiKey) {
         setHasKey(true);
-        setApiKey(apiKey);
       }
     };
     checkKey();

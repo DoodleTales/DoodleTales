@@ -1,4 +1,4 @@
-//* ZombieGame Types
+//* Game Types
 export interface GameMessage {
   id: string;
   type: 'user' | 'assistant';
@@ -21,6 +21,7 @@ export interface GenerateStoryRequest {
   userMessage: string;
   conversationHistory: conversationMessage[];
   isStarting: boolean;
+  theme?: string;
 }
 
 export interface GenerateImageRequest {
@@ -32,8 +33,9 @@ export interface GenerateStoryResponse {
   imagePrompt: string;
 }
 
-//* DashboardClient Types
-export interface DashboardClientProps {
+//* GameClient Types added theme
+export interface GameClientProps {
+  theme?: string;
   user: {
     name?: string | null;
     email?: string | null;

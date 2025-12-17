@@ -1,18 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 import BlurText from './BlurText';
-
 import Lottie from 'lottie-react';
 import animationData from '@/public/animations/Learning Drawing.json';
-import GamePage from '@/app/game/page';
+import { useRouter } from 'next/navigation';
+import { useTheme } from '@/app/context/themeContext';
 
 
-export default function ThemeProvider({ user }: DashboardClientProps) {
+export default function ThemeProvider({ user }: GameClientProps) {
+  const router = useRouter();
+  const { setTheme: setContextTheme } = useTheme();
   const [theme, setTheme] = useState('');
   const [submitFailed, setSubmitFailed] = useState(false);
 
@@ -25,7 +27,8 @@ export default function ThemeProvider({ user }: DashboardClientProps) {
     }
     //! send theme to GamePage
     console.log('Theme submitted:', theme);
-    return GamePage(theme);
+    setContextTheme(theme);
+    router.push(`/game`);
   };
 
   return (

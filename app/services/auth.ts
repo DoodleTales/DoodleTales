@@ -1,9 +1,11 @@
 'use server';
+
 //! this is the auth service where the calls are used
 import { signIn, signOut } from '@/auth';
 import { SupabaseService } from '@/app/services/supabase';
-import bcrypt from 'bcrypt';
 import { UserData } from './dbtypes';
+import { encrypt } from '@/lib/crypto';
+import { SignUpSchema } from '@/lib/schemas';
 
 export async function signInWithGithub() {
   await signIn('github', { redirectTo: '/' });
@@ -18,26 +20,25 @@ export async function signOutAction() {
 }
 
 export async function signUp(formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const name = formData.get('user') as string;
+  const rawData = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+    user: formData.get('user') as string,
+  };
 
-  const number = process.env.SCRIPT_NUMBER;
+  const validation = SignUpSchema.safeParse(rawData);
 
-  if (!email || !password || !name) {
-    throw new Error('Missing fields');
+  if (!validation.success) {
+    throw new Error(validation.error.message);
   }
 
-  if (!number) {
-    throw new Error('SCRIPT_NUMBER is not set');
-  }
+  const { email, password, user: name } = validation.data;
 
-  const hashedPassword = await bcrypt.hash(password, Number(number));
-  const hashedPasswordSlice = hashedPassword.slice(7);
+  const encryptedPassword = encrypt(password);
   const userData: UserData = {
     name: name,
     email: email,
-    password: hashedPasswordSlice,
+    password: encryptedPassword,
   };
 
   const { error } = await SupabaseService.createUser(email, userData);

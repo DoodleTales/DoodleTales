@@ -1,19 +1,41 @@
-import { google } from '@ai-sdk/google';
-import {generateText} from 'ai';
-
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateText } from 'ai';
 import { type NextRequest, NextResponse } from 'next/server';
-
 import { GAME_PROMPTS } from '@/lib/prompts';
 import { GenerateStoryRequest } from '@/lib/types';
 import { GAME_CONFIG } from '@/lib/const';
+import { auth } from '@/auth';
+import { SupabaseService } from '@/app/services/supabase';
+import { decrypt } from '@/lib/crypto';
 
 export async function POST(req: NextRequest) {
   try {
-    const {userMessage, conversationHistory, isStarting}: GenerateStoryRequest = await req.json();
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    let prompt:string = GAME_PROMPTS.INITIAL_STORY;
+    const userData = await SupabaseService.getUserByEmail(session.user.email);
+    const apiKey = userData?.ai_api_key ? decrypt(userData.ai_api_key) : process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 
-    if(!isStarting) {
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API Key not found. Please set it in API Options' }, { status: 400 });
+    }
+
+    const google = createGoogleGenerativeAI({
+      apiKey: apiKey,
+    });
+
+    const { userMessage, conversationHistory, isStarting, theme }: GenerateStoryRequest = await req.json();
+
+    let prompt: string = '';
+
+    if (isStarting) {
+      if (!theme) {
+        return NextResponse.json({ error: 'Theme is required to start the game' }, { status: 400 });
+      }
+      prompt = GAME_PROMPTS.INITIAL_PROMPT(theme);
+    } else {
       const historyText = conversationHistory.map(
         (message) => `message.role: ${message.role}: message.content: ${message.content}`).join('\n');
 

@@ -1,15 +1,13 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Game from '@/components/Game';
-import { setTheme } from './actions';
 
-export default async function GamePage(theme: string) {
+export default async function GamePage() {
   const session = await auth();
 
   if (!session?.user) {
     redirect('/');
   }
 
-  setTheme(theme)
   return <Game user={session.user} />;
 }
