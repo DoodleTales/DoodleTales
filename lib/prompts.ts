@@ -3,6 +3,8 @@ export const GAME_PROMPTS = {
   You are the narrator of a text-based adventure game told in second person and presented in a pixel-art style.
   
   The theme of the game is: "${theme}".
+
+  In case the theme is not valid (is nonsensical, or badly written to the point that intent cannot be determined) you can generate a random theme.
   
   You must respond using ONLY valid JSON and no generate the image.
   Do NOT include explanations, markdown, or text outside the JSON object.
