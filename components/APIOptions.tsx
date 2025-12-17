@@ -37,7 +37,7 @@ export default function APIOptions({ user }: GameClientProps) {
           </div>
         </div>
       ));
-      router.push('/theme-provider');
+      router.replace('/theme-provider');
     } catch (error) {
       toast.custom((t) => (
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
@@ -70,7 +70,7 @@ export default function APIOptions({ user }: GameClientProps) {
           </div>
         </div>
       ));
-      router.push('/theme-provider');
+      router.replace('/theme-provider');
     } catch (error) {
       toast.custom((t) => (
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
@@ -158,7 +158,7 @@ export default function APIOptions({ user }: GameClientProps) {
 
   return (
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
-      <Navbar isAuthenticated={true} user={user} isAPIOptionsDisabled={true} />
+      <Navbar isAuthenticated={true} user={user} isAPIOptionsDisabled={true} hasKey={hasKey} />
       <div className='p-8 flex flex-col flex-1 min-h-0'>
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
 
@@ -194,10 +194,8 @@ export default function APIOptions({ user }: GameClientProps) {
                   <li>
                     Copy the generated key and paste it in the panel to the right.
                   </li>
-                  <li>
-                    Ensure billing is enabled for your Google Cloud project associated with the API key.
-                  </li>
                 </ol>
+                <TriangleAlert className='h-5 w-5 inline text-red-500' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
               </div>
             </div>
           </section>

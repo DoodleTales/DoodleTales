@@ -85,15 +85,19 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   logoHref?: string;
   navigationLinks?: Navbar01NavLink[];
+  GameText?: string;
+  GameHref?: string;
   APIOptionsText?: string;
   APIOptionsHref?: string;
   SignOutText?: string;
   SignOutHref?: string;
+  onGameClick?: () => void;
   onAPIOptionsClick?: () => void;
   onSignOutClick?: () => void;
   darkModeToggle?: React.ReactNode;
   user?: GameClientProps['user'];
   isAPIOptionsDisabled?: boolean;
+  hasKey?: boolean;
 }
 
 // Default navigation links
@@ -111,15 +115,19 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       logo = <Logo />,
       logoHref = '/',
       navigationLinks = defaultNavigationLinks,
+      GameText = '',
+      GameHref = '',
       APIOptionsText = '',
       APIOptionsHref = '',
       SignOutText = '',
       SignOutHref = '',
+      onGameClick,
       onAPIOptionsClick,
       onSignOutClick,
       darkModeToggle,
       user,
       isAPIOptionsDisabled = false,
+      hasKey = false,
       ...props
     },
     ref
@@ -249,6 +257,23 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
               <span className="font-bold"> {user?.name}</span>
             </p>)}
           <div className="flex items-center gap-3">
+            {GameText && isAPIOptionsDisabled && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white",
+                  !hasKey && "opacity-50 cursor-not-allowed hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                )}
+                disabled={!hasKey}
+                onClick={(e) => {
+                e.preventDefault();
+                if (onGameClick) onGameClick();
+                }}
+              >
+              {GameText}
+            </Button>
+            )}
             {APIOptionsText && !isAPIOptionsDisabled && (
               <Button
                 variant="ghost"

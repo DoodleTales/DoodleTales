@@ -27,7 +27,7 @@ export default function ThemeProvider({ user }: GameClientProps) {
     //! send theme to GamePage
     console.log('Theme submitted:', theme);
     setContextTheme(theme);
-    router.push('/game');
+    router.replace('/game');
   };
 
   return (
