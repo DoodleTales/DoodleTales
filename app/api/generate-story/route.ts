@@ -51,7 +51,12 @@ export async function POST(req: NextRequest) {
 
     console.log('Incoming JSON:', text);
 
-    const {title, narrative, imagePrompt } = JSON.parse(text);
+    const jsonString = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    const {title, narrative, imagePrompt } = JSON.parse(jsonString);
     console.log('Generated story:', narrative);
     console.log('Generated image prompt:', imagePrompt);
     console.log('Generated title:', title);
