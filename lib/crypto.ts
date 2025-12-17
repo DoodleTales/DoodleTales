@@ -4,7 +4,7 @@ import crypto from 'crypto';
 // If AUTH_SECRET is not set or short, we handle it responsibly.
 // Ideally, use a dedicated AUTH_SECRET for encryption.
 const SECRET_KEY = process.env.AUTH_SECRET || 'default-secret-key-change-me-please';
-const KEY = crypto.scryptSync(SECRET_KEY, 'salt', 32); 
+const KEY = crypto.scryptSync(SECRET_KEY, 'salt', 32);
 const ALGORITHM = 'aes-256-cbc';
 
 export function encrypt(text: string): string {

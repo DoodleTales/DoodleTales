@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import type { GameMessage } from '@/lib/types';
 import { useTheme } from '@/app/context/themeContext';
 
@@ -7,6 +7,7 @@ export function useZombieGame() {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const theme = useTheme();
+  const hasStarted = useRef(false);
 
   const startGame = useCallback(async () => {
     setIsLoading(true);
@@ -47,7 +48,10 @@ export function useZombieGame() {
   }, []);
 
   useEffect(() => {
-    startGame();
+    if (!hasStarted.current) {
+      startGame();
+      hasStarted.current = true;
+    }
   }, [startGame]);
 
   const generateImage = async (messageId:string, imagePrompt:string) => {

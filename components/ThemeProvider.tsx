@@ -11,7 +11,6 @@ import animationData from '@/public/animations/Learning Drawing.json';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 
-
 export default function ThemeProvider({ user }: GameClientProps) {
   const router = useRouter();
   const { setTheme: setContextTheme } = useTheme();
@@ -28,7 +27,7 @@ export default function ThemeProvider({ user }: GameClientProps) {
     //! send theme to GamePage
     console.log('Theme submitted:', theme);
     setContextTheme(theme);
-    router.push(`/game`);
+    router.push('/game');
   };
 
   return (

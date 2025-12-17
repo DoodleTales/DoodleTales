@@ -87,7 +87,7 @@ export function SignupForm({
                     autoComplete='username'
                     required
                   />
-                   {fieldErrors.user && <p className="text-red-500 text-sm mt-1">{fieldErrors.user}</p>}
+                  {fieldErrors.user && <p className='text-red-500 text-sm mt-1'>{fieldErrors.user}</p>}
                 </Field>
                 <Field>
                   <FieldLabel htmlFor='email'>Email</FieldLabel>
@@ -99,12 +99,12 @@ export function SignupForm({
                     autoComplete='email'
                     required
                   />
-                  {fieldErrors.email && <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>}
+                  {fieldErrors.email && <p className='text-red-500 text-sm mt-1'>{fieldErrors.email}</p>}
                 </Field>
                 <Field>
                   <FieldLabel htmlFor='password'>Password</FieldLabel>
                   <Input id='password' name='password' type='password' required autoComplete='new-password' />
-                  {fieldErrors.password && <p className="text-red-500 text-sm mt-1">{fieldErrors.password}</p>}
+                  {fieldErrors.password && <p className='text-red-500 text-sm mt-1'>{fieldErrors.password}</p>}
                 </Field>
                 {error && <div className='text-red-500 text-sm'>{error}</div>}
                 <Field>

@@ -37,7 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
         const securePassword = decrypt(user.password as string);
-        
+
         if (securePassword !== password) {
           console.log('Invalid password');
           return null;

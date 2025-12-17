@@ -95,7 +95,7 @@ export const GAME_PROMPTS = {
     - No text, UI, speech bubbles, logos, or watermarks.
   
   Be concise, reactive, and consistent.`,
-  
+
   GENERATE_IMAGE: (prompt: string) => `You are an expert pixel artist. Generate a pixel-art image
   
   IMAGE GENERATION RULES (NON-NEGOTIABLE):
