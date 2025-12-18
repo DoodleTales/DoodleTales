@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSendingImage, setIsSendingImage] = useState(false);
   const [title, setTitle] = useState('');
   const theme = useTheme();
   const hasStarted = useRef(false);
@@ -79,6 +80,7 @@ export function useGame() {
       }
 
       const imageData = await response.json();
+      //TODO Remove this console.log after testing
       console.log(imageData);
       setMessages(prevMessages => prevMessages.map(message => {
         if (message.id === messageId) {
@@ -104,7 +106,9 @@ export function useGame() {
   };
 
   const submitImage = async (base64Image: string) => {
-    if (isLoading) return;
+    if (isLoading || isSendingImage) return;
+
+    setIsSendingImage(true);
 
     //* Lets do it step by step
     //* 1. Send image to backend to get it described
@@ -125,6 +129,7 @@ export function useGame() {
       }
 
       const data = await response.json();
+      //TODO Remove this console.log after testing
       console.log(data);
       const messageId = crypto.randomUUID();
 
@@ -146,7 +151,7 @@ export function useGame() {
     } catch (error) {
       console.error('Error describing image 👀: ', error);
     } finally {
-      setIsLoading(false);
+      setIsSendingImage(false);
     }
   };
 
@@ -154,6 +159,7 @@ export function useGame() {
     title,
     messages,
     isLoading,
+    isSendingImage,
     startGame,
     submitImage,
   };
