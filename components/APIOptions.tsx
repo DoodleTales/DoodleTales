@@ -156,8 +156,8 @@ export default function APIOptions({ user }: GameClientProps) {
 
   useEffect(() => {
     const checkKey = async () => {
-      const apiKey = await hasUserKey();
-      if (apiKey) {
+      const hasKey = await hasUserKey();
+      if (hasKey) {
         setHasKey(true);
       }
     };
@@ -242,15 +242,17 @@ export default function APIOptions({ user }: GameClientProps) {
                             autoComplete='off'
                             required
                           />
-                          <Button
-                            type='button'
-                            variant='ghost'
-                            size='icon'
-                            className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
-                            onClick={() => setShowKey(!showKey)}
-                          >
-                            {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
-                          </Button>
+                          {apiKey &&
+                            <Button
+                              type='button'
+                              variant='ghost'
+                              size='icon'
+                              className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
+                              onClick={() => setShowKey(!showKey)}
+                            >
+                              {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
+                            </Button>
+                          }
                         </div>
                       </div>
                       <div className='flex gap-2'>
@@ -278,15 +280,17 @@ export default function APIOptions({ user }: GameClientProps) {
                           autoComplete='off'
                           required
                         />
-                        <Button
-                          type='button'
-                          variant='ghost'
-                          size='icon'
-                          className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer'
-                          onClick={() => setShowKey(!showKey)}
-                        >
-                          {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
-                        </Button>
+                        {apiKey &&
+                          <Button
+                            type='button'
+                            variant='ghost'
+                            size='icon'
+                            className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer'
+                            onClick={() => setShowKey(!showKey)}
+                          >
+                            {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
+                          </Button>
+                        }
                       </div>
                     </div>
                     <Button type='submit' className='w-full cursor-pointer' disabled={isLoading}>
