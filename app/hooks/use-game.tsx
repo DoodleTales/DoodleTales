@@ -127,9 +127,9 @@ export function useGame() {
       }
 
       const dataPlayer = await response.json();
-      
+
       console.log(dataPlayer);
-      
+
       const playerMessage: GameMessage = {
         id: crypto.randomUUID(),
         type: 'user',
@@ -149,7 +149,7 @@ export function useGame() {
   };
 
   const continueStory = async (playerAction: string) => {
-    
+
     try {
       const response = await fetch('/api/generate-story', {
         method: 'POST',
@@ -178,7 +178,7 @@ export function useGame() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return {
     title,
