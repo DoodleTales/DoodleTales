@@ -168,10 +168,10 @@ export default function APIOptions({ user }: GameClientProps) {
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
       <Navbar isAuthenticated={true} user={user} isAPIOptionsDisabled={true} hasKey={hasKey} />
       <div className='p-8 flex flex-col flex-1 min-h-0'>
-        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
+        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse lg:flex-row gap-4'>
 
           {/* Instructions Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col gap-6 relative'>
+          <section className='flex-1 min-w-[600px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col gap-6 relative'>
             <div>
               <h2 className='text-2xl font-bold mb-4 text-center'>Getting Started with Google AI</h2>
               <div className='aspect-video relative w-full mb-6 rounded-lg overflow-hidden border bg-muted'>
@@ -209,7 +209,7 @@ export default function APIOptions({ user }: GameClientProps) {
           </section>
 
           {/* API Key Management Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
+          <section className='flex-1 min-w-[600px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
             <div className='w-full max-w-md space-y-6'>
               <div className='text-center'>
                 <h2 className='text-2xl font-bold'>Account Management</h2>

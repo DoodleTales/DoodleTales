@@ -98,15 +98,15 @@ export default function Game({ user }: GameClientProps) {
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
       <Navbar isAuthenticated={true} user={user}/>
       <div className='p-8 flex flex-col flex-1 min-h-0'>
-        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
+        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse lg:flex-row gap-4'>
           {/* chatGame Section */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative'>
             <ChatGame title={title} messages={messages} isLoading={isLoading} />
           </section>
           {/* SketchCanvas Section */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-hidden shadow-sm bg-card relative flex flex-col'>
-            <div className='p-4 border-b bg-muted/20 flex flex-col xl:flex-row gap-4 justify-between items-center'>
-              <h2 className='text-lg font-semibold leading-none hidden xl:block'>Draw!</h2>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative flex flex-col'>
+            <div className='p-4 border-b bg-muted/20 flex flex-col lg:flex-row gap-4 justify-between items-center'>
+              <h2 className='text-lg font-semibold leading-none hidden lg:block'>Draw!</h2>
 
               {/* Toolbar */}
               <div className='flex items-center gap-2'>
