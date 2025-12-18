@@ -8,5 +8,5 @@ export async function handleSignOut() {
 }
 
 export async function handleGame() {
-  await redirect('/game');
+  await redirect('/theme-provider');
 }
