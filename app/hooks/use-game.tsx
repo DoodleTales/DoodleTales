@@ -155,6 +155,7 @@ export function useGame() {
         method: 'POST',
         body: JSON.stringify({
           playerAction: playerAction,
+          conversationHistory: messages,
         }),
       });
 
