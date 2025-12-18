@@ -117,22 +117,26 @@ export const GAME_PROMPTS = {
   based on the following prompt:
   ${prompt}
 `,
-  DESCRIBE_IMAGE: (image: string) => `You are a film director describing a live-action stunt.
+  DESCRIBE_IMAGE: (image: string) => `
 
-  Your Task: Look at the shapes in this doodle and describe them as real-world physical actions. Transform the simple marks into a clear, direct movie scene.
+  Role: You are an expert Visual Narrator converting abstract storyboards into hyper-realistic movie scene descriptions.
 
-  The Rules of Interpretation:
-    - Be Literal: If there is a scribble, it is a cloud of dust or a splash of water. If there is a stick figure, it is a person in motion.
-    - Identify the Main Action: State exactly what is happening in one clear sentence.
-    - Focus on Physical Movement: Use simple, heavy verbs: smashing, running, falling, flying, exploding, glowing.
-    - Scale: Mention if something looks "huge" or "tiny" compared to other things in the image.
-    - Ignore the Medium: Do not mention paint, markers, or paper. Describe the scene as if it were happening in real life.
+  Task: Look at ${image}. Ignore the crude nature of the medium. Describe the scene as a vivid, high-budget cinematic reality.
 
-  Response Structure:
-    - The Core Action: A one-sentence summary of the main event.
-    - The Scene Details: Describe the objects, what they are doing, and how the "light" or "energy" looks.
-    - The Impact: Describe what is happening to the ground or the air around the action.
+  IMAGE DESCRIPTION RULES (NON-NEGOTIABLE):
+  1.  The "Reality" Filter: There is no paper, ink, or canvas. There is only the world inside the frame. Never mention "doodles," "lines," "strokes," or "depictions."
+  2.  Biological & Structural Filling:
+      - Stick figures = Real humans or animals with weight, muscle, and clothing.
+      - Scribbles = Organic textures (clouds, foliage, fire, water) or atmospheric effects (dust, smoke).
+      - Basic Shapes = Solid physical structures (man-made or natural).
+  3.  Gravity & Physics: If an object is drawn floating slightly above the ground line, interpret it as walking, standing, or resting *on* the ground. Only describe flight if the context (wings, cape, sky) demands it.
+  4.  Tone Detection: Assess the chaos of the marks.
+      - Neat/clean lines = Calm, serene, static atmosphere.
+      - Messy/jagged lines = Intense, energetic, stormy, or fast-paced atmosphere.
 
-  Describe the action in this scene: ${image}`,
+  You HAVE TO follow the following Response Structure (do not generate any other text):
+  - The Core Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This should be a short sentence, maximum 25 words.
+
+  `,
 };
 
