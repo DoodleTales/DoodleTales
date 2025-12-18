@@ -3,6 +3,7 @@ import type { GameMessage } from '@/lib/types';
 import { useTheme } from '@/app/context/themeContext';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/navigation';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -11,9 +12,14 @@ export function useGame() {
   const [title, setTitle] = useState('');
   const theme = useTheme();
   const hasStarted = useRef(false);
+  const router = useRouter();
 
   const startGame = useCallback(async () => {
     setIsLoading(true);
+    if (!theme.theme) {
+      router.replace('/theme-provider');
+      return;
+    }
 
     try {
       const response = await fetch('/api/generate-story', {
