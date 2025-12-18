@@ -11,6 +11,7 @@ import animationData from '@/public/animations/Learning Drawing.json';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 import { hasUserKey } from '@/app/api-options/page';
+import validateTheme from '@/app/services/validation';
 
 export default function ThemeProvider({ user }: GameClientProps) {
   const router = useRouter();
@@ -39,10 +40,17 @@ export default function ThemeProvider({ user }: GameClientProps) {
       setTimeout(() => setSubmitFailed(false), 500);
       return;
     }
-    //* Send theme to GamePage
+    //* Sanitize theme and send it to GamePage
     // console.log('Theme submitted:', theme);
-    setContextTheme(theme);
-    router.replace('/game');
+    if (!validateTheme(theme)) {
+      setTheme('');
+      setSubmitFailed(true);
+      setTimeout(() => setSubmitFailed(false), 500);
+      return;
+    } else{
+      setContextTheme(theme);
+      router.replace('/game');
+    }
   };
 
   return (
