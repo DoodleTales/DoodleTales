@@ -172,10 +172,10 @@ export default function APIOptions({ user }: GameClientProps) {
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse lg:flex-row gap-4'>
 
           {/* Instructions Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col gap-6 relative'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col gap-4 relative'>
             <div>
               <h2 className='text-2xl font-bold mb-4 text-center'>Getting Started with Google AI</h2>
-              <div className='aspect-video relative w-full mb-6 rounded-lg overflow-hidden border bg-muted'>
+              <div className='aspect-video relative w-full mb-4 rounded-lg overflow-hidden border bg-muted'>
                 <iframe
                   className='absolute inset-0 w-full h-full'
                   src='https://www.youtube.com/embed/RVGbLSVFtIk'
@@ -190,7 +190,7 @@ export default function APIOptions({ user }: GameClientProps) {
                   To unlock image generation features, you need a Google AI API Key.
                   Follow these steps to obtain one:
                 </p>
-                <ol className='list-decimal pl-5 space-y-2'>
+                <ol className='list-decimal pl-4 space-y-2'>
                   <li>
                     Go to <a href='https://aistudio.google.com/' target='_blank' rel='noopener noreferrer' className='text-primary hover:underline inline-flex items-center gap-1'>Google AI Studio <ExternalLink className='h-3 w-3' /></a>.
                   </li>
@@ -203,19 +203,21 @@ export default function APIOptions({ user }: GameClientProps) {
                   <li>
                     Copy the generated key and paste it in the panel to the right.
                   </li>
+                  <li>
+                    <TriangleAlert className='h-5 w-5 inline text-red-500' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
+                  </li>
                 </ol>
-                <TriangleAlert className='h-5 w-5 inline text-red-500' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
               </div>
             </div>
           </section>
 
           {/* API Key Management Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
             <div className='w-full max-w-md space-y-6'>
               <div className='text-center'>
                 <h2 className='text-2xl font-bold'>Account Management</h2>
-                <p className='text-muted-foreground mt-2'>
-                  Manage your Google AI API key securely. 🔑
+                <p className='text-muted-foreground'>
+                  Manage your Google AI API key securely 🔑
                 </p>
               </div>
 
