@@ -22,13 +22,17 @@ export default function ChatGame({title, messages, isLoading }: chatGameProps) {
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex flex-col max-w-[80%] rounded-lg p-3 ${
+            className={`flex flex-col max-w-[80%] rounded-lg p-4 ${
               message.type === 'user'
                 ? 'ml-auto bg-primary text-primary-foreground'
                 : 'mr-auto bg-muted'
             }`}
           >
-            <p className='whitespace-pre-wrap'>{message.content}</p>
+            {message.content.split('\n').filter((line) => line.trim() !== '').map((paragraph, index) => (
+              <p key={index} className='whitespace-pre-wrap mb-4 last:mb-0 text-justify'>
+                {paragraph}
+              </p>
+            ))}
             {message.image && (
               <div className='mt-2 rounded-md overflow-hidden'>
                 <Image

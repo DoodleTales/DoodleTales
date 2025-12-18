@@ -32,10 +32,10 @@ export const GAME_PROMPTS = {
   - "narrative":
     - Immersive and dramatic tone.
     - Second person perspective.
-    - One or two short paragraphs (from 2 to 4 sentences total).
+    - Use two short paragraphs (from 2 to 4 sentences total).
     - Describe the initial situation and immediate surroundings.
     - Do NOT assume any player action.
-    - End with a direct question inviting the player to draw their first action
+    - ALWAYS end with a direct question inviting the player to draw their first action
       (e.g. “What do you do?”, “Where do you go?”, “How do you react?”).
 
   - "imagePrompt":
@@ -93,7 +93,8 @@ export const GAME_PROMPTS = {
     - The narrative MUST reflect the player action and its immediate consequences.
     - Do NOT introduce player actions that were not drawn.
     - Interpret the action creatively but plausibly.
-    - End with a direct question inviting the player to draw their next action.
+    - ALWAYS end with a direct question inviting the player to draw their first action
+      (e.g. “What do you do?”, “Where do you go?”, “How do you react?”).
 
   - "imagePrompt":
     - Pixel-art image of the scene AFTER the player action.
@@ -135,7 +136,7 @@ export const GAME_PROMPTS = {
       - Messy/jagged lines = Intense, energetic, stormy, or fast-paced atmosphere.
 
   You HAVE TO follow the following Response Structure (do not generate any other text):
-  - The Core Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This should be a short sentence, maximum 25 words.
+  - Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This should be a short sentence, maximum 25 words.
 
   `,
 };
