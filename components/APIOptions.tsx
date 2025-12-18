@@ -21,6 +21,7 @@ export default function APIOptions({ user }: GameClientProps) {
   const router = useRouter();
   const theme = useTheme();
 
+  //* Reset theme on mount
   useEffect(() => {
     if (theme.theme !== '') {
       theme.setTheme('');
