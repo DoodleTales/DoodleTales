@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import type { GameMessage } from '@/lib/types';
 import { useTheme } from '@/app/context/themeContext';
+import { toast } from 'sonner';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -22,6 +23,16 @@ export function useGame() {
       });
 
       if (!response.ok) {
+        toast.custom((t) => (
+          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+            <div className='flex items-center gap-2'>
+              <div>
+                <div className='font-semibold'>Failed to start game 🚨</div>
+                <div className='text-sm opacity-90'>Please reload the page.</div>
+              </div>
+            </div>
+          </div>
+        ));
         throw new Error('Failed to start game 🚨');
       }
 

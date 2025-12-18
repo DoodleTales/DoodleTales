@@ -11,6 +11,7 @@ import { deleteAPIKey, getUserData, saveAPIKey, deleteUser, hasUserKey } from '@
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { handleSignOut } from '@/app/game/actions';
+import { useTheme } from '@/app/context/themeContext';
 
 export default function APIOptions({ user }: GameClientProps) {
   const [apiKey, setApiKey] = useState('');
@@ -18,6 +19,13 @@ export default function APIOptions({ user }: GameClientProps) {
   const [hasKey, setHasKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const theme = useTheme();
+
+  useEffect(() => {
+    if (theme.theme !== '') {
+      theme.setTheme('');
+    }
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();

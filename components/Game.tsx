@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import Navbar from './Navbar';
 import SketchCanvas from '@/components/SketchCanvas';
@@ -18,6 +18,7 @@ import { Pen, Eraser, Palette, Trash } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 import ChatGame from '@/components/ChatGame';
+import router from 'next/router';
 
 const COLORS = [
   '#000000',
@@ -35,6 +36,13 @@ export default function Game({ user }: GameClientProps) {
   const [strokeWidth, setStrokeWidth] = useState(10);
   const [sendFailed, setSendFailed] = useState(false);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    console.log(theme);
+    if (theme === '') {
+      redirect('/theme-provider');
+    }
+  }, []);
 
   if (!theme || Array.isArray(theme)) {
     redirect('/theme-provider');
