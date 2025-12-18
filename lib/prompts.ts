@@ -121,7 +121,7 @@ export const GAME_PROMPTS = {
 
   Role: You are an expert Visual Narrator converting abstract storyboards into hyper-realistic movie scene descriptions.
 
-  Task: Look at ${image}. Ignore the crude nature of the medium. Describe the scene as a vivid, high-budget cinematic reality.
+  Task: Look at the image attached in this prompt. Ignore the crude nature of the medium. Describe the scene as a vivid, high-budget cinematic reality.
 
   IMAGE DESCRIPTION RULES (NON-NEGOTIABLE):
   1.  The "Reality" Filter: There is no paper, ink, or canvas. There is only the world inside the frame. Never mention "doodles," "lines," "strokes," or "depictions."

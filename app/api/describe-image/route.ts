@@ -1,5 +1,5 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText } from 'ai';
+import { generateText, ModelMessage } from 'ai';
 import { type NextRequest, NextResponse } from 'next/server';
 import { GAME_PROMPTS } from '@/lib/prompts';
 import { DescribeImageRequest, GenerateStoryRequest } from '@/lib/types';
@@ -27,11 +27,23 @@ export async function POST(req: NextRequest) {
 
     const { image }: DescribeImageRequest = await req.json();
 
-    const prompt = GAME_PROMPTS.DESCRIBE_IMAGE(image);
+    if (!image) {
+      return NextResponse.json({ error: 'Image is required' }, { status: 400 });
+    }
+
+    const multiModalPrompt: ModelMessage[] = [
+      {
+        role: 'user',
+        content: [
+          { type: 'text', text: GAME_PROMPTS.DESCRIBE_IMAGE(image) },
+          { type: 'image', image: image },
+        ],
+      },
+    ];
 
     const { text } = await generateText({
       model: google('gemini-2.5-flash'),
-      prompt,
+      prompt: multiModalPrompt,
     });
 
     return NextResponse.json({ text });

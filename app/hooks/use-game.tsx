@@ -103,20 +103,18 @@ export function useGame() {
     }
   };
 
-  const submitImage = async (base64Image: string) => {
+  const submitImage = async (image: string) => {
     if (isLoading) return;
 
     //* Lets do it step by step
-    //* 1. Send image to backend to get it described
-    //* 2. Get response
-    //* 3. Update messages
-    //* 4. Generate image
+    //* 1. Update response messages
+    //* 2. Generate image
 
     try {
       const response = await fetch('/api/describe-image', {
         method: 'POST',
         body: JSON.stringify({
-          image: base64Image,
+          image: image,
         }),
       });
 
@@ -124,31 +122,59 @@ export function useGame() {
         throw new Error('Failed to describe image 👀');
       }
 
-      const data = await response.json();
-      console.log(data);
-      const messageId = crypto.randomUUID();
+      const dataPlayer = await response.json();
+      
+      console.log(dataPlayer);
+      
+      const playerMessage: GameMessage = {
+        id: crypto.randomUUID(),
+        type: 'user',
+        content: dataPlayer.text,
+        imageLoading: false,
+      };
 
-      // const assistantMessage: GameMessage = {
-      //   id: messageId,
-      //   type: 'assistant',
-      //   content: data.narrative,
-      //   imageLoading: true,
-      // };
-      // const playerMessage: GameMessage = {
-      //   id: crypto.randomUUID(),
-      //   type: 'user',
-      //   content: data.player,
-      //   imageLoading: false,
-      // };
+      setMessages(prevMessages => [...prevMessages,playerMessage]);
 
-      // setMessages(prevMessages => [...prevMessages,playerMessage, assistantMessage]);
-      // generateImage(messageId, data.imagePrompt);
+      continueStory(dataPlayer.text);
     } catch (error) {
       console.error('Error describing image 👀: ', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const continueStory = async (playerAction: string) => {
+    
+    try {
+      const response = await fetch('/api/generate-story', {
+        method: 'POST',
+        body: JSON.stringify({
+          playerAction: playerAction,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to continue story 🚨');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      const assistantMessage: GameMessage = {
+        id: crypto.randomUUID(),
+        type: 'assistant',
+        content: data.narrative,
+        imageLoading: true,
+      };
+
+      setMessages(prevMessages => [...prevMessages,assistantMessage]);
+      generateImage(assistantMessage.id, data.imagePrompt);
+    } catch (error) {
+      console.error('Error continuing story 🚨: ', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
 
   return {
     title,

@@ -35,7 +35,9 @@ export interface GenerateStoryResponse {
 }
 
 export interface DescribeImageRequest {
-  image: string;
+  image?: string;
+  base64?: string;
+  mimeType?: string;
 }
 
 //* GameClient Types added theme
