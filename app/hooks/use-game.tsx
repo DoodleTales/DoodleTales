@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSendingImage, setIsSendingImage] = useState(false);
   const [title, setTitle] = useState('');
   const theme = useTheme();
   const hasStarted = useRef(false);
@@ -79,6 +80,7 @@ export function useGame() {
       }
 
       const imageData = await response.json();
+      //TODO Remove this console.log after testing
       console.log(imageData);
       setMessages(prevMessages => prevMessages.map(message => {
         if (message.id === messageId) {
@@ -103,8 +105,10 @@ export function useGame() {
     }
   };
 
-  const submitImage = async (image: string) => {
-    if (isLoading) return;
+  const submitImage = async (base64Image: string) => {
+    if (isLoading || isSendingImage) return;
+
+    setIsSendingImage(true);
 
     //* Lets do it step by step
     //* 1. Update response messages
@@ -114,7 +118,7 @@ export function useGame() {
       const response = await fetch('/api/describe-image', {
         method: 'POST',
         body: JSON.stringify({
-          image: image,
+          image: base64Image,
         }),
       });
 
@@ -139,7 +143,8 @@ export function useGame() {
     } catch (error) {
       console.error('Error describing image 👀: ', error);
     } finally {
-      setIsLoading(false);
+      setIsSendingImage(false);
+
     }
   };
 
@@ -175,11 +180,11 @@ export function useGame() {
     }
   }
 
-
   return {
     title,
     messages,
     isLoading,
+    isSendingImage,
     startGame,
     submitImage,
   };

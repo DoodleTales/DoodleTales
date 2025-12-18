@@ -5,6 +5,7 @@ import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import Navbar from './Navbar';
 import SketchCanvas from '@/components/SketchCanvas';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   Popover,
   PopoverContent,
@@ -14,11 +15,10 @@ import {
 import { GameClientProps } from '@/lib/types';
 import { useGame } from '@/app/hooks/use-game';
 import { FaPaperPlane } from 'react-icons/fa';
-import { Pen, Eraser, Palette, Trash } from 'lucide-react';
+import { Pen, Eraser, Palette, Trash, Loader2 } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 import ChatGame from '@/components/ChatGame';
-import router from 'next/router';
 
 const COLORS = [
   '#000000',
@@ -29,7 +29,7 @@ const COLORS = [
 ];
 
 export default function Game({ user }: GameClientProps) {
-  const {title, messages, isLoading, submitImage } = useGame();
+  const {title, messages, isLoading, isSendingImage, submitImage } = useGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
   const [eraseMode, setEraseMode] = useState(false);
@@ -83,6 +83,7 @@ export default function Game({ user }: GameClientProps) {
 
           //TODO Avoid showing the image directly in the chat view, we need to process it first and show the AI processed image
           const base64Data = image.replace(/^data:image\/png;base64,/, '');
+          //TODO Remove this console.log after testing
           console.log(base64Data);
           await submitImage(base64Data);
           canvasRef.current.clearCanvas();
@@ -200,13 +201,24 @@ export default function Game({ user }: GameClientProps) {
                   />
                 </div>
               </div>
+              {/*Send Button*/}
               <Button
                 key={sendFailed ? 'send-failed' : 'send-normal'}
-                className={`${sendFailed ? 'animate-shake bg-red-600 hover:bg-red-600 text-white' : ''}`}
+                className={cn(
+                  'relative',
+                  sendFailed ? 'animate-shake bg-red-600 hover:bg-red-600 text-white' : '',
+                )}
                 onClick={handleSend}
-                disabled={isLoading}
+                disabled={isSendingImage}
               >
-                Send <FaPaperPlane />
+                <span className={cn('flex items-center gap-2', isSendingImage && 'invisible')}>
+                  Send <FaPaperPlane />
+                </span>
+                {isSendingImage && (
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                  </div>
+                )}
               </Button>
             </div>
             <div className='flex-1 relative'>
