@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, useRef } from 'react';
 import type { GameMessage } from '@/lib/types';
 import { useTheme } from '@/app/context/themeContext';
 import { toast } from 'sonner';
+import { v4 as uuidv4 } from 'uuid';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -39,7 +40,7 @@ export function useGame() {
 
       const data = await response.json();
 
-      const messageId = crypto.randomUUID();
+      const messageId = uuidv4();
 
       const newMessage: GameMessage = {
         id: messageId,
@@ -131,7 +132,7 @@ export function useGame() {
       console.log(dataPlayer);
 
       const playerMessage: GameMessage = {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         type: 'user',
         content: dataPlayer.text,
         imageLoading: false,
@@ -166,7 +167,7 @@ export function useGame() {
       const data = await response.json();
       console.log(data);
       const assistantMessage: GameMessage = {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         type: 'assistant',
         content: data.narrative,
         imageLoading: true,
