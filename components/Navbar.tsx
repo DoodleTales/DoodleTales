@@ -4,7 +4,8 @@ import { Navbar01 } from '@/components/ui/shadcn-io/navbar-01';
 import DoodleTalesLogo from '@/public/DoodleTalesLogo.png';
 import Image from 'next/image';
 import DarkModeToggle from './DarkModeToggle';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import { useTheme } from '@/app/context/themeContext';
 
 import { GameClientProps } from '@/lib/types';
 
@@ -13,8 +14,16 @@ import { handleSignOut, handleGame } from '@/app/game/actions';
 export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = false, hasKey = false }: { isAuthenticated: boolean, user?: GameClientProps['user']; isAPIOptionsDisabled?: boolean; hasKey?: boolean; }) {
 
   const router = useRouter();
+  const pathname = usePathname();
+  const { setTheme } = useTheme();
+
   const handleAPIOptionsClick = () => {
     router.replace('/api-options');
+  };
+
+  const handleNewGame = () => {
+    setTheme('');
+    router.replace('/theme-provider');
   };
 
   return (
@@ -33,6 +42,10 @@ export default function Navbar({ isAuthenticated, user, isAPIOptionsDisabled = f
           GameText='Play'
           GameHref='/game'
           onGameClick={handleGame}
+
+          NewGameText={pathname === '/game' ? 'New' : ''}
+          onNewGameClick={pathname === '/game' ? handleNewGame : undefined}
+
           APIOptionsText='Options'
           APIOptionsHref='/api-options'
           onAPIOptionsClick={handleAPIOptionsClick}

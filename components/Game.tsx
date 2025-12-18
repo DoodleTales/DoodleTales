@@ -16,7 +16,7 @@ import { GameClientProps } from '@/lib/types';
 import { useGame } from '@/app/hooks/use-game';
 import { FaPaperPlane } from 'react-icons/fa';
 import { Pen, Eraser, Palette, Trash, Loader2 } from 'lucide-react';
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 import ChatGame from '@/components/ChatGame';
 
@@ -29,6 +29,7 @@ const COLORS = [
 ];
 
 export default function Game({ user }: GameClientProps) {
+  const router = useRouter();
   const {title, messages, isLoading, isSendingImage, submitImage } = useGame();
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeColor, setStrokeColor] = useState('#555555');
@@ -38,15 +39,10 @@ export default function Game({ user }: GameClientProps) {
   const { theme } = useTheme();
 
   useEffect(() => {
-    console.log(theme);
-    if (theme === '') {
-      redirect('/theme-provider');
+    if (theme === '' || !theme || Array.isArray(theme)) {
+      router.replace('/theme-provider');
     }
-  }, []);
-
-  if (!theme || Array.isArray(theme)) {
-    redirect('/theme-provider');
-  }
+  }, [theme, router]);
 
   const handlePenClick = () => {
     setEraseMode(false);
@@ -81,10 +77,7 @@ export default function Game({ user }: GameClientProps) {
         } else {
           const image = await canvasRef.current.exportImage('png');
 
-          //TODO Avoid showing the image directly in the chat view, we need to process it first and show the AI processed image
           const base64Data = image.replace(/^data:image\/png;base64,/, '');
-          //TODO Remove this console.log after testing
-          console.log(base64Data);
           await submitImage(base64Data);
           canvasRef.current.clearCanvas();
         }

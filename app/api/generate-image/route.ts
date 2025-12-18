@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log('Generated image 🖌️: ', files);
+    // console.log('Generated image 🖌️: ', files);
 
     const imageFile = files?.[0];
     //* Check if the image file has a base64 property or is the base64 string itself

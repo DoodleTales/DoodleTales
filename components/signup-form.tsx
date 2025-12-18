@@ -46,7 +46,6 @@ export function SignupForm({
       await signUp(formData);
       setSuccess(true);
     } catch (error:any) {
-      console.log(error);
       toast.custom((t) => (
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
           <div className='flex items-center gap-2'>

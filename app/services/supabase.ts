@@ -35,7 +35,6 @@ export const SupabaseService = {
 
   async createUser(userEmail: string, envData: UserData) {
     try {
-      console.log('Creating user env:', envData);
       const { data, error } = await supabase
         .schema('next_auth')
         .from('users')

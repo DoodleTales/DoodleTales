@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     // const [narrative, imagePrompt] = text.split(GAME_CONFIG.IMAGE.SEPARATOR);
 
-    console.log('Incoming JSON:', text);
+    // console.log('Incoming JSON:', text);
 
     const jsonString = text
       .replace(/```json/g, '')

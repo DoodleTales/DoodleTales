@@ -41,7 +41,6 @@ export default function ThemeProvider({ user }: GameClientProps) {
       return;
     }
     //* Sanitize theme and send it to GamePage
-    // console.log('Theme submitted:', theme);
     if (!validateTheme(theme)) {
       setTheme('');
       setSubmitFailed(true);

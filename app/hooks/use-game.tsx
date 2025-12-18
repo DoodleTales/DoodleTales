@@ -81,8 +81,6 @@ export function useGame() {
       }
 
       const imageData = await response.json();
-      //TODO Remove this console.log after testing
-      console.log(imageData);
       setMessages(prevMessages => prevMessages.map(message => {
         if (message.id === messageId) {
           return {
@@ -129,8 +127,6 @@ export function useGame() {
 
       const dataPlayer = await response.json();
 
-      console.log(dataPlayer);
-
       const playerMessage: GameMessage = {
         id: uuidv4(),
         type: 'user',
@@ -165,7 +161,6 @@ export function useGame() {
       }
 
       const data = await response.json();
-      console.log(data);
       const assistantMessage: GameMessage = {
         id: uuidv4(),
         type: 'assistant',

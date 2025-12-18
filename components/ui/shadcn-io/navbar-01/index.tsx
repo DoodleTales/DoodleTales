@@ -99,6 +99,8 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   user?: GameClientProps['user'];
   isAPIOptionsDisabled?: boolean;
   hasKey?: boolean;
+  NewGameText?: string;
+  onNewGameClick?: () => void;
 }
 
 // Default navigation links
@@ -129,6 +131,8 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       user,
       isAPIOptionsDisabled = false,
       hasKey = false,
+      NewGameText = '',
+      onNewGameClick,
       ...props
     },
     ref
@@ -140,7 +144,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       const checkWidth = () => {
         if (containerRef.current) {
           const width = containerRef.current.offsetWidth;
-          setIsMobile(width < 768); // 768px is md breakpoint
+          setIsMobile(width < 768);
         }
       };
 
@@ -258,6 +262,21 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
               <span className="font-bold"> {user?.name}</span>
             </p>)}
           <div className="flex items-center gap-3">
+            {NewGameText && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "text-sm font-medium rounded-md shadow-sm dark:bg-white dark:text-black dark:hover:bg-gray-400 dark:hover:text-white bg-black text-white hover:bg-gray-400 hover:text-white"
+                )}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onNewGameClick) onNewGameClick();
+                }}
+              >
+                <Brush className="h-4 w-4"/>{NewGameText}
+              </Button>
+            )}
             {GameText && isAPIOptionsDisabled && (
               <Button
                 variant="ghost"

@@ -28,18 +28,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await SupabaseService.getUserByEmail(email as string);
 
         if (!user) {
-          console.log('User not found');
+          // console.log('User not found');
           return null;
         }
         const scriptKey = process.env.SCRIPT_KEY;
         if (!scriptKey) {
-          console.log('SCRIPT_KEY is not set');
+          // console.log('SCRIPT_KEY is not set');
           return null;
         }
         const securePassword = decrypt(user.password as string);
 
         if (securePassword !== password) {
-          console.log('Invalid password');
+          // console.log('Invalid password');
           return null;
         }
 
