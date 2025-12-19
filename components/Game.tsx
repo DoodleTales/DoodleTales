@@ -15,7 +15,7 @@ import {
 import { GameClientProps } from '@/lib/types';
 import { useGame } from '@/app/hooks/use-game';
 import { FaPaperPlane } from 'react-icons/fa';
-import { Pen, Eraser, Palette, Trash, Loader2 } from 'lucide-react';
+import { Pen, Eraser, Palette, Trash, Loader2, Undo, Redo } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/app/context/themeContext';
 import ChatGame from '@/components/ChatGame';
@@ -56,6 +56,14 @@ export default function Game({ user }: GameClientProps) {
 
   const handleClearClick = () => {
     canvasRef.current?.clearCanvas();
+  };
+
+  const handleUndoClick = () => {
+    canvasRef.current?.undo();
+  };
+
+  const handleRedoClick = () => {
+    canvasRef.current?.redo();
   };
 
   const handleColorClick = (color: string) => {
@@ -121,6 +129,24 @@ export default function Game({ user }: GameClientProps) {
                     title='Eraser'
                   >
                     <Eraser className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className={'h-8 w-8 rounded-none'}
+                    onClick={handleUndoClick}
+                    title='Undo'
+                  >
+                    <Undo className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className={'h-8 w-8 rounded-none'}
+                    onClick={handleRedoClick}
+                    title='Redo'
+                  >
+                    <Redo className='h-4 w-4' />
                   </Button>
                   <Button
                     variant='ghost'
