@@ -92,6 +92,7 @@ export default function Game({ user }: GameClientProps) {
           const base64Data = image.replace(/^data:image\/png;base64,/, '');
           await submitImage(base64Data);
           canvasRef.current.clearCanvas();
+          canvasRef.current.resetCanvas();
         }
       } catch (error) {
         console.error('Error exporting image 🖼️ ❌:', error);

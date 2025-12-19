@@ -4,7 +4,7 @@ import { useTheme } from '@/app/context/themeContext';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
-import { serverOverloadToast } from '@/app/hooks/toasts';
+import { clientErrorToast, serverOverloadToast } from '@/app/hooks/toasts';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -45,7 +45,20 @@ export function useGame() {
             </div>
           </div>
         ));
-        throw new Error('Failed to start game 🚨');
+        // throw new Error('Failed to start game 🚨');
+        if (response.status === 400) {
+          clientErrorToast(() => startGame());
+        }
+        toast.custom((t) => (
+          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
+            <div className='flex items-center gap-2'>
+              <div>
+                <div className='font-semibold'>Failed to start game 🚨</div>
+                <div className='text-sm opacity-90'>Please check your details or try again.</div>
+              </div>
+            </div>
+          </div>
+        ));
       }
 
       const data = await response.json();
@@ -90,7 +103,10 @@ export function useGame() {
         if (response.status === 500) {
           serverOverloadToast(() => generateImage(messageId, imagePrompt));
         }
-        throw new Error('Failed to generate image 🚨');
+        // throw new Error('Failed to generate image 🚨');
+        if (response.status === 400) {
+          clientErrorToast(() => generateImage(messageId, imagePrompt));
+        }
       }
 
       const imageData = await response.json();
@@ -122,10 +138,7 @@ export function useGame() {
 
     setIsSendingImage(true);
 
-    //* Lets do it step by step
-    //* 1. Update response messages
-    //* 2. Generate image
-    console.log(messages[messages.length - 1].content);
+    // console.log(messages[messages.length - 1].content);
     try {
       const response = await fetch('/api/describe-image', {
         method: 'POST',
@@ -139,7 +152,10 @@ export function useGame() {
         if (response.status === 500) {
           serverOverloadToast(() => submitImage(base64Image));
         }
-        throw new Error('Failed to describe image 👀');
+        // throw new Error('Failed to describe image 👀');
+        if (response.status === 400) {
+          clientErrorToast(() => submitImage(base64Image));
+        }
       }
 
       const dataPlayer = await response.json();
@@ -177,7 +193,10 @@ export function useGame() {
         if (response.status === 500) {
           serverOverloadToast(() => continueStory(playerAction));
         }
-        throw new Error('Failed to continue story 🚨');
+        // throw new Error('Failed to continue story 🚨');
+        if (response.status === 400) {
+          clientErrorToast(() => continueStory(playerAction));
+        }
       }
 
       const data = await response.json();

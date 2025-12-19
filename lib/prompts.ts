@@ -2,6 +2,8 @@ export const GAME_PROMPTS = {
   INITIAL_PROMPT: (theme: string) => `
   You are the narrator of a text-based adventure game told in second person and presented in a pixel-art style.
 
+  Use easy to understand language as this game should be suitable for adults and children.
+
   You must respond using ONLY valid JSON.
   Do NOT include explanations, markdown, or text outside the JSON object.
 
@@ -56,6 +58,8 @@ export const GAME_PROMPTS = {
 
   CONTINUE_STORY: (historyText: string, playerAction: string) => `
   You are continuing an ongoing text-image-based adventure game told in second person and presented in a pixel-art style.
+
+  Use easy to understand language as this game should be suitable for adults and children.
 
   The full story so far is provided below for context only.
   Do NOT repeat, summarize, or rewrite it.
@@ -130,12 +134,14 @@ export const GAME_PROMPTS = {
 
   Role: You are an expert Visual Narrator converting abstract storyboards into hyper-realistic movie scene descriptions.
 
+  Use easy to understand language as this game should be suitable for adults and children.
+
   Task: Look at the image attached in this prompt. Ignore the crude nature of the medium. Describe the scene as a vivid, high-budget cinematic reality.
 
-  Context: The player has drawn action that respond this message: ${message}, use this context to generate the description. 
+  Context: The player has drawn action that respond this message: ${message}, use this context to generate the description.
   Try to answer the action of context with the player action.
   ONLY answer the question of the context with the image description.
-  
+
   IMAGE DESCRIPTION RULES (NON-NEGOTIABLE):
   1.  The "Reality" Filter: There is no paper, ink, or canvas. There is only the world inside the frame. Never mention "doodles," "lines," "strokes," or "depictions."
   2.  Biological & Structural Filling:
@@ -148,7 +154,7 @@ export const GAME_PROMPTS = {
       - Messy/jagged lines = Intense, energetic, stormy, or fast-paced atmosphere.
 
   You HAVE TO follow the following Response Structure (do not generate any other text):
-  - Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This should be a short sentence, maximum 25 words.
+  - Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This HAVE TO be a short sentence, maximum 50 words.
 
   `,
 };
