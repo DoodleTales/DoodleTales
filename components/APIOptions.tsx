@@ -40,7 +40,7 @@ export default function APIOptions({ user }: GameClientProps) {
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
           <div className='flex items-center gap-2'>
             <div>
-              <div className='font-semibold'>API key successfully saved!</div>
+              <div className='font-semibold'>API key successfully saved! 🔑</div>
               <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function APIOptions({ user }: GameClientProps) {
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
           <div className='flex items-center gap-2'>
             <div>
-              <div className='font-semibold'>API key successfully updated!</div>
+              <div className='font-semibold'>API key successfully updated! 🔑</div>
               <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function APIOptions({ user }: GameClientProps) {
           <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
             <div className='flex items-center gap-2'>
               <div>
-                <div className='font-semibold'>API key successfully deleted!</div>
+                <div className='font-semibold'>API key successfully deleted! ❌</div>
                 <div className='text-sm opacity-90'>You can now add an API key.</div>
               </div>
             </div>

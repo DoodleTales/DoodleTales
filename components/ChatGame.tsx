@@ -37,7 +37,7 @@ export default function ChatGame({title, messages, isLoading }: chatGameProps) {
                 : 'mr-auto bg-muted'
             }`}
           >
-            {message.content.split('\n').filter((line) => line.trim() !== '').map((paragraph, index) => (
+            {(message.content ?? '').split('\n').filter((line) => line.trim() !== '').map((paragraph, index) => (
               <p key={index} className='whitespace-pre-wrap mb-4 last:mb-0 text-justify'>
                 {paragraph}
               </p>

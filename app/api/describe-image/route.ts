@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 400 });
     }
 
     const userData = await SupabaseService.getUserByEmail(session.user.email);
@@ -49,7 +49,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ text });
 
   } catch (error) {
-    console.error('Error generating story:', error);
-    return NextResponse.json({error: 'Failed to generate story'}, {status: 500});
+    console.error('Error describing image:', error);
+
+    const statusCode = error instanceof Error && 'statusCode' in error ? (error as { statusCode: number }).statusCode : 500;
+
+    const errorMessage = error instanceof Error ? error.message : 'Failed to describe image';
+
+    console.log('STATUS CODE', statusCode);
+
+    return NextResponse.json({ error: errorMessage }, { status: statusCode });
   }
 }

@@ -4,7 +4,7 @@ import { useTheme } from '@/app/context/themeContext';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
-import { clientErrorToast, serverOverloadToast } from '@/app/hooks/toasts';
+import { clientErrorToast, serverErrorToast } from '@/app/hooks/toasts';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -33,32 +33,11 @@ export function useGame() {
 
       if (!response.ok) {
         if (response.status === 500) {
-          serverOverloadToast(() => startGame());
+          serverErrorToast(() => startGame(), 'Starting game', 'Please try again or reload the page.');
         }
-        toast.custom((t) => (
-          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
-            <div className='flex items-center gap-2'>
-              <div>
-                <div className='font-semibold'>Failed to start game 🚨</div>
-                <div className='text-sm opacity-90'>Please reload the page.</div>
-              </div>
-            </div>
-          </div>
-        ));
-        // throw new Error('Failed to start game 🚨');
         if (response.status === 400) {
-          clientErrorToast(() => startGame());
+          clientErrorToast(() => startGame(), 'Starting game', 'Please check your details/Options and try again.');
         }
-        toast.custom((t) => (
-          <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
-            <div className='flex items-center gap-2'>
-              <div>
-                <div className='font-semibold'>Failed to start game 🚨</div>
-                <div className='text-sm opacity-90'>Please check your details or try again.</div>
-              </div>
-            </div>
-          </div>
-        ));
       }
 
       const data = await response.json();
@@ -101,11 +80,10 @@ export function useGame() {
 
       if (!response.ok) {
         if (response.status === 500) {
-          serverOverloadToast(() => generateImage(messageId, imagePrompt));
+          serverErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Please try again or reload the page.');
         }
-        // throw new Error('Failed to generate image 🚨');
         if (response.status === 400) {
-          clientErrorToast(() => generateImage(messageId, imagePrompt));
+          clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Please check your details/Options and try again.');
         }
       }
 
@@ -138,7 +116,6 @@ export function useGame() {
 
     setIsSendingImage(true);
 
-    // console.log(messages[messages.length - 1].content);
     try {
       const response = await fetch('/api/describe-image', {
         method: 'POST',
@@ -150,11 +127,10 @@ export function useGame() {
 
       if (!response.ok) {
         if (response.status === 500) {
-          serverOverloadToast(() => submitImage(base64Image));
+          serverErrorToast(() => submitImage(base64Image), 'Error sending image.', 'Please try again or reload the page.');
         }
-        // throw new Error('Failed to describe image 👀');
         if (response.status === 400) {
-          clientErrorToast(() => submitImage(base64Image));
+          clientErrorToast(() => submitImage(base64Image), 'Error sending image.', 'Please check your details/Options and try again.');
         }
       }
 
@@ -191,11 +167,10 @@ export function useGame() {
 
       if (!response.ok) {
         if (response.status === 500) {
-          serverOverloadToast(() => continueStory(playerAction));
+          serverErrorToast(() => continueStory(playerAction), 'Error continuing story.', 'Please try again or reload the page.', true);
         }
-        // throw new Error('Failed to continue story 🚨');
         if (response.status === 400) {
-          clientErrorToast(() => continueStory(playerAction));
+          clientErrorToast(() => continueStory(playerAction), 'Error continuing story.', 'Please check your details/Options and try again.', true);
         }
       }
 
