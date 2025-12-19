@@ -107,7 +107,7 @@ export default function Game({ user }: GameClientProps) {
             <ChatGame title={title} messages={messages} isLoading={isLoading} />
           </section>
           {/* SketchCanvas Section */}
-          <section className='flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative flex flex-col'>
+          <section className='canvasWrapper flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative flex flex-col'>
             <div className='p-4 border-b bg-muted/20 flex flex-col lg:flex-row gap-4 justify-between items-center'>
               <h2 className='text-lg font-semibold leading-none hidden lg:block'>Draw!</h2>
 
@@ -233,7 +233,7 @@ export default function Game({ user }: GameClientProps) {
                   onClick={handleSend}
                   disabled={isSendingImage}
                 >
-                  <span className={cn('flex items-center gap-2', isSendingImage && 'invisible')}>
+                  <span className={cn('flex items-center gap-2 touch-none select-none', isSendingImage && 'invisible')}>
                     Send <FaPaperPlane />
                   </span>
                   {isSendingImage && (
@@ -245,10 +245,10 @@ export default function Game({ user }: GameClientProps) {
                 :
                 <Button
                   key='send-disabled'
-                  className='relative bg-muted hover:bg-muted text-muted-foreground'
+                  className='relative bg-muted hover:bg-muted text-muted-foreground touch-none'
                   disabled
                 >
-                  <span className='flex items-center gap-2'>
+                  <span className='flex items-center gap-2 touch-none select-none'>
                     Send <FaPaperPlane />
                   </span>
                 </Button>
