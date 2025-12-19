@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: 'Doodle Tales',
   description: 'Sketch your next story',
   icons: {
-    icon: '/DoodleTalesLogo.ico',
+    icon: '/favicon.ico',
   },
 };
 
