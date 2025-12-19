@@ -32,6 +32,9 @@ export function useGame() {
       });
 
       if (!response.ok) {
+        if (response.status === 500) {
+          serverOverloadToast(() => startGame());
+        }
         toast.custom((t) => (
           <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
             <div className='flex items-center gap-2'>
@@ -84,6 +87,9 @@ export function useGame() {
       });
 
       if (!response.ok) {
+        if (response.status === 500) {
+          serverOverloadToast(() => generateImage(messageId, imagePrompt));
+        }
         throw new Error('Failed to generate image 🚨');
       }
 
