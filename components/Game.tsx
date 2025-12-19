@@ -36,6 +36,7 @@ export default function Game({ user }: GameClientProps) {
   const [eraseMode, setEraseMode] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(10);
   const [sendFailed, setSendFailed] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function Game({ user }: GameClientProps) {
                     </Button>
                   </div>
                   <div className='w-px h-6 bg-border mx-1' />
-                  <Popover>
+                  <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant='ghost'
@@ -252,6 +253,7 @@ export default function Game({ user }: GameClientProps) {
               </div>
             </div>
             <div className='flex-1 relative'>
+              {isPopoverOpen && <div className='absolute inset-0 z-10' />}
               <SketchCanvas
                 ref={canvasRef}
                 width='100%'
