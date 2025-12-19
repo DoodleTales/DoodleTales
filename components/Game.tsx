@@ -210,7 +210,7 @@ export default function Game({ user }: GameClientProps) {
                 <div className='w-px h-6 bg-border mx-1' />
 
                 <div className='flex items-center gap-2'>
-                  <span className='text-xs font-medium text-muted-foreground w-4 text-center'>{strokeWidth}</span>
+                  <span className='text-xs font-medium text-muted-foreground w-4 text-center touch-none select-none'>{strokeWidth}</span>
                   <input
                     type='range'
                     min='1'
