@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useRef } from 'react';
 import { GameMessage } from '@/lib/types';
 import Image from 'next/image';
 
@@ -9,6 +10,14 @@ interface chatGameProps {
 }
 
 export default function ChatGame({title, messages, isLoading }: chatGameProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div className='flex flex-col h-full bg-background'>
       <div className='p-4 border-b bg-muted/20'>
@@ -18,7 +27,7 @@ export default function ChatGame({title, messages, isLoading }: chatGameProps) {
         <h2 className='text-lg font-semibold'>{title}</h2>
       </div>
 
-      <div className='flex-1 overflow-y-auto p-4 space-y-4'>
+      <div ref={scrollRef} className='flex-1 overflow-y-auto p-4 space-y-4'>
         {messages.map((message) => (
           <div
             key={message.id}
