@@ -4,6 +4,7 @@ import { useTheme } from '@/app/context/themeContext';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
+import { serverOverloadToast } from '@/app/hooks/toasts';
 
 export function useGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
@@ -128,6 +129,9 @@ export function useGame() {
       });
 
       if (!response.ok) {
+        if (response.status === 500) {
+          serverOverloadToast(() => submitImage(base64Image));
+        }
         throw new Error('Failed to describe image 👀');
       }
 
@@ -163,6 +167,9 @@ export function useGame() {
       });
 
       if (!response.ok) {
+        if (response.status === 500) {
+          serverOverloadToast(() => continueStory(playerAction));
+        }
         throw new Error('Failed to continue story 🚨');
       }
 
