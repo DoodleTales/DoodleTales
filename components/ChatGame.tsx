@@ -11,7 +11,7 @@ interface chatGameProps {
 
 export default function ChatGame({title, messages, isLoading }: chatGameProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-
+  //* Add to scroll to last message
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
