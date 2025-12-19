@@ -143,7 +143,13 @@ export function useGame() {
         imageLoading: false,
       };
 
-      setMessages(prevMessages => [...prevMessages,playerMessage]);
+      setMessages(prevMessages => {
+        const lastMessage = prevMessages[prevMessages.length - 1];
+        const filteredMessages = lastMessage && !lastMessage.content
+          ? prevMessages.slice(0, -1)
+          : prevMessages;
+        return [...filteredMessages, playerMessage];
+      });
 
       continueStory(dataPlayer.text);
     } catch (error) {
@@ -182,7 +188,13 @@ export function useGame() {
         imageLoading: true,
       };
 
-      setMessages(prevMessages => [...prevMessages,assistantMessage]);
+      setMessages(prevMessages => {
+        const lastMessage = prevMessages[prevMessages.length - 1];
+        const filteredMessages = lastMessage && !lastMessage.content
+          ? prevMessages.slice(0, -1)
+          : prevMessages;
+        return [...filteredMessages, assistantMessage];
+      });
       generateImage(assistantMessage.id, data.imagePrompt);
     } catch (error) {
       console.error('Error continuing story 🚨: ', error);
