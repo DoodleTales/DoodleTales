@@ -135,7 +135,7 @@ export default function APIOptions({ user }: GameClientProps) {
         await deleteUser();
         success = true;
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         setIsLoading(false);
         toast.custom((t) => (
           <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>

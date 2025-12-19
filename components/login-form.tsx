@@ -44,7 +44,7 @@ export function LoginForm({
       ) {
         throw err;
       }
-      console.error(err);
+      // console.error(err);
       setError('Failed to login. Please check your credentials.');
     }
   }

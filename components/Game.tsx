@@ -81,7 +81,7 @@ export default function Game({ user }: GameClientProps) {
       try {
         const paths = await canvasRef.current.exportPaths();
         if (paths.length === 0) {
-          console.error('No paths found 🖌️ ❌');
+          // console.error('No paths found 🖌️ ❌');
           setSendFailed(true);
           // Reset after animation completes (500ms)
           setTimeout(() => setSendFailed(false), 500);
