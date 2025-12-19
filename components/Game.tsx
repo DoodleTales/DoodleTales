@@ -99,12 +99,12 @@ export default function Game({ user }: GameClientProps) {
   };
 
   return (
-    <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
+    <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground touch-none select-none'>
       <Navbar isAuthenticated={true} user={user}/>
       <div className='p-8 flex flex-col flex-1 min-h-0'>
         <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse lg:flex-row gap-4'>
           {/* chatGame Section */}
-          <section className='flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative touch-none select-none'>
             <ChatGame title={title} messages={messages} isLoading={isLoading} />
           </section>
           {/* SketchCanvas Section */}
