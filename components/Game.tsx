@@ -114,7 +114,7 @@ export default function Game({ user }: GameClientProps) {
             <div className='p-4 border-b bg-muted/20 flex flex-col lg:flex-row gap-4 justify-between items-center'>
               <div className='flex w-full justify-between'>
                 {/* Toolbar */}
-                <div className='flex items-center gap-2 touch-none select-none'>
+                <div className={`flex items-center gap-2 touch-none select-none ${isLoading || isSendingImage ? 'opacity-50 pointer-events-none' : ''}`}>
                   <div className='flex items-center border rounded-lg overflow-hidden bg-background shadow-sm'>
                     <Button
                       variant='ghost'
