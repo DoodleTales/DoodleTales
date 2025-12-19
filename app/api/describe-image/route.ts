@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       apiKey: apiKey,
     });
 
-    const { image }: DescribeImageRequest = await req.json();
+    const { image, message }: DescribeImageRequest = await req.json();
 
     if (!image) {
       return NextResponse.json({ error: 'Image is required' }, { status: 400 });
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       {
         role: 'user',
         content: [
-          { type: 'text', text: GAME_PROMPTS.DESCRIBE_IMAGE(image) },
+          { type: 'text', text: GAME_PROMPTS.DESCRIBE_IMAGE(image, message) },
           { type: 'image', image: image },
         ],
       },

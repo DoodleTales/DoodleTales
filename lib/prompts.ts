@@ -126,12 +126,16 @@ export const GAME_PROMPTS = {
   based on the following prompt:
   ${prompt}
 `,
-  DESCRIBE_IMAGE: (image: string) => `
+  DESCRIBE_IMAGE: (image: string, message: string | undefined) => `
 
   Role: You are an expert Visual Narrator converting abstract storyboards into hyper-realistic movie scene descriptions.
 
   Task: Look at the image attached in this prompt. Ignore the crude nature of the medium. Describe the scene as a vivid, high-budget cinematic reality.
 
+  Context: The player has drawn action that respond this message: ${message}, use this context to generate the description. 
+  Try to answer the action of context with the player action.
+  ONLY answer the question of the context with the image description.
+  
   IMAGE DESCRIPTION RULES (NON-NEGOTIABLE):
   1.  The "Reality" Filter: There is no paper, ink, or canvas. There is only the world inside the frame. Never mention "doodles," "lines," "strokes," or "depictions."
   2.  Biological & Structural Filling:

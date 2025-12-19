@@ -38,6 +38,7 @@ export interface DescribeImageRequest {
   image?: string;
   base64?: string;
   mimeType?: string;
+  message?: string;
 }
 
 //* GameClient Types added theme

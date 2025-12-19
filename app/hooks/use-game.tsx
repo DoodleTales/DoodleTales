@@ -125,12 +125,13 @@ export function useGame() {
     //* Lets do it step by step
     //* 1. Update response messages
     //* 2. Generate image
-
+    console.log(messages[messages.length - 1].content);
     try {
       const response = await fetch('/api/describe-image', {
         method: 'POST',
         body: JSON.stringify({
           image: base64Image,
+          message: messages[messages.length - 1].content,
         }),
       });
 
