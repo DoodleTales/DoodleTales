@@ -57,6 +57,7 @@ export default function Game({ user }: GameClientProps) {
   const handleClearClick = () => {
     if (window.confirm('Are you sure you want to clear the canvas?')) {
       canvasRef.current?.clearCanvas();
+      canvasRef.current?.resetCanvas();
     }
   };
 
@@ -109,10 +110,10 @@ export default function Game({ user }: GameClientProps) {
           {/* SketchCanvas Section */}
           <section className='canvasWrapper flex-1 min-w-[400px] border rounded-lg overflow-hidden shadow-sm bg-card relative flex flex-col'>
             <div className='p-4 border-b bg-muted/20 flex flex-col lg:flex-row gap-4 justify-between items-center'>
-              <h2 className='text-lg font-semibold leading-none hidden lg:block'>Draw!</h2>
+              <h2 className='text-lg font-semibold leading-none hidden lg:block touch-none select-none'>Draw!</h2>
 
               {/* Toolbar */}
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 touch-none select-none'>
                 <div className='flex items-center border rounded-lg overflow-hidden bg-background shadow-sm'>
                   <Button
                     variant='ghost'
