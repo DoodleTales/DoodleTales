@@ -1,8 +1,8 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText } from 'ai';
+import { generateText, ModelMessage } from 'ai';
 import { type NextRequest, NextResponse } from 'next/server';
 import { GAME_PROMPTS } from '@/lib/prompts';
-import { GenerateStoryRequest } from '@/lib/types';
+import { DescribeImageRequest, GenerateStoryRequest } from '@/lib/types';
 import { auth } from '@/auth';
 import { SupabaseService } from '@/app/services/supabase';
 import { decrypt } from '@/lib/crypto';
@@ -25,45 +25,35 @@ export async function POST(req: NextRequest) {
       apiKey: apiKey,
     });
 
-    const { playerAction, conversationHistory, isStarting, theme }: GenerateStoryRequest = await req.json();
+    const { image, message }: DescribeImageRequest = await req.json();
 
-    let prompt: string = '';
-
-    if (isStarting) {
-      if (!theme) {
-        return NextResponse.json({ error: 'Theme is required to start the game' }, { status: 400 });
-      }
-      prompt = GAME_PROMPTS.INITIAL_PROMPT(theme);
-    } else {
-      const historyText = conversationHistory.map(
-        (message) => `message.role: ${message.role}: message.content: ${message.content}`).join('\n');
-
-      prompt = GAME_PROMPTS.CONTINUE_STORY(historyText, playerAction);
+    if (!image) {
+      return NextResponse.json({ error: 'Image is required' }, { status: 400 });
     }
+
+    const multiModalPrompt: ModelMessage[] = [
+      {
+        role: 'user',
+        content: [
+          { type: 'text', text: GAME_PROMPTS.DESCRIBE_IMAGE(image, message) },
+          { type: 'image', image: image },
+        ],
+      },
+    ];
 
     const { text } = await generateText({
       model: google('gemini-2.5-flash'),
-      prompt,
+      prompt: multiModalPrompt,
     });
 
-    // const [narrative, imagePrompt] = text.split(GAME_CONFIG.IMAGE.SEPARATOR);
-
-    // console.log('Incoming JSON:', text);
-
-    const jsonString = text
-      .replace(/```json/g, '')
-      .replace(/```/g, '')
-      .trim();
-
-    const {title, player, narrative, imagePrompt } = JSON.parse(jsonString);
-    return NextResponse.json({ title, player, narrative, imagePrompt });
+    return NextResponse.json({ text });
 
   } catch (error) {
-    console.error('Error generating story:', error);
+    console.error('Error describing image:', error);
 
     const statusCode = error instanceof Error && 'statusCode' in error ? (error as { statusCode: number }).statusCode : 500;
 
-    const errorMessage = error instanceof Error ? error.message : 'Failed to generate story';
+    const errorMessage = error instanceof Error ? error.message : 'Failed to describe image';
 
     console.log('STATUS CODE', statusCode);
 

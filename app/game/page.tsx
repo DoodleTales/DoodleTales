@@ -1,9 +1,9 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
-import ThemeProvider from '@/components/ThemeProvider';
+import Game from '@/components/Game';
 import { userValidated } from '@/app/api/auth/userValidation';
 
-export default async function ThemeProviderPage() {
+export default async function GamePage() {
   const session = await auth();
 
   if (!session?.user) {
@@ -16,5 +16,5 @@ export default async function ThemeProviderPage() {
     redirect('/');
   }
 
-  return <ThemeProvider user={session.user} />;
+  return <Game user={session.user} />;
 }

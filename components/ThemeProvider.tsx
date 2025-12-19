@@ -1,18 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 import BlurText from './BlurText';
-
 import Lottie from 'lottie-react';
 import animationData from '@/public/animations/Learning Drawing.json';
+import { useRouter } from 'next/navigation';
+import { useTheme } from '@/app/context/themeContext';
+import { hasUserKey } from '@/app/api-options/page';
+import validateTheme from '@/app/services/validation';
 
-export default function ThemeProvider({ user }: DashboardClientProps) {
+export default function ThemeProvider({ user }: GameClientProps) {
+  const router = useRouter();
+  const { setTheme: setContextTheme } = useTheme();
   const [theme, setTheme] = useState('');
   const [submitFailed, setSubmitFailed] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkKey = async () => {
+      const apiKey = await hasUserKey();
+      if (!apiKey) {
+        router.replace('/api-options');
+      }
+      else{
+        setLoading(false);
+      }
+    };
+    checkKey();
+  }, []);
 
   const handleSubmitTheme = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,12 +40,20 @@ export default function ThemeProvider({ user }: DashboardClientProps) {
       setTimeout(() => setSubmitFailed(false), 500);
       return;
     }
-    //TODO Placeholder function to send theme to API
-    console.log('Theme submitted:', theme);
+    //* Sanitize theme and send it to GamePage
+    if (!validateTheme(theme)) {
+      setTheme('');
+      setSubmitFailed(true);
+      setTimeout(() => setSubmitFailed(false), 500);
+      return;
+    } else{
+      setContextTheme(theme);
+      router.replace('/game');
+    }
   };
 
   return (
-    <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
+    (!loading) ? <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
       <Navbar isAuthenticated={true} user={user} />
       <div className='p-8 flex flex-col flex-1 min-h-0 items-center justify-center'>
         {/* Element 1: BlurText (Top Section) */}
@@ -71,6 +98,8 @@ export default function ThemeProvider({ user }: DashboardClientProps) {
           />
         </div>
       </div>
+    </div> : <div className='fixed inset-0 flex items-center justify-center bg-background text-foreground'>
+      <p className='text-2xl font-medium'>Loading...</p>
     </div>
   );
 }

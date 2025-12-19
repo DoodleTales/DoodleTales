@@ -12,10 +12,3 @@ export const UI_MESSAGES = {
     INPUT: 'Draw what you want to do next or what you want to use to continue the story.',
   },
 };
-
-export const GAME_CONFIG = {
-  IMAGE: {
-    DEFAULT_PROMPT: 'A zombie apocalypse scene.',
-    SEPARATOR: 'IMAGE: ',
-  },
-};

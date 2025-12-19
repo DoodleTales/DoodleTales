@@ -13,7 +13,11 @@ export default async function HomePage() {
   if (session?.user?.email) {
     const user = await SupabaseService.getUserByEmail(session.user.email);
 
-    if(user.ai_api_key) {
+    //* If user doesn't exist in database (was deleted), show login page
+    if (!user) {
+      //* Session exists but user deleted - just show login page
+      //* They'll need to log in again
+    } else if (user.ai_api_key) {
       redirect('/theme-provider');
     } else {
       redirect('/api-options');

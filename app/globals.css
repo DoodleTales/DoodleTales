@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -49,9 +49,16 @@
   --animate-shake: shake 0.3s ease-in-out;
 
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    75% { transform: translateX(3px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-3px);
+    }
+    75% {
+      transform: translateX(3px);
+    }
   }
 }
 
@@ -131,4 +138,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.canvasWrapper,
+.canvasWrapper * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }

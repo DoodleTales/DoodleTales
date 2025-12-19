@@ -4,8 +4,8 @@ import GitHub from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { SupabaseService } from '@/app/services/supabase';
-import bcrypt from 'bcrypt';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
+import { decrypt } from './lib/crypto';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -28,19 +28,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await SupabaseService.getUserByEmail(email as string);
 
         if (!user) {
-          console.log('User not found');
+          // console.log('User not found');
           return null;
         }
         const scriptKey = process.env.SCRIPT_KEY;
         if (!scriptKey) {
-          console.log('SCRIPT_KEY is not set');
+          // console.log('SCRIPT_KEY is not set');
           return null;
         }
-        const securePassword = scriptKey.concat(user.password as string);
-        const passwordsMatch = await bcrypt.compare(password as string, securePassword);
+        const securePassword = decrypt(user.password as string);
 
-        if (!passwordsMatch) {
-          console.log('Invalid password');
+        if (securePassword !== password) {
+          // console.log('Invalid password');
           return null;
         }
 

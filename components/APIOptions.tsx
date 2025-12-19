@@ -3,21 +3,30 @@
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
-import { DashboardClientProps } from '@/lib/types';
+import { GameClientProps } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Save, Trash2, ExternalLink, TriangleAlert } from 'lucide-react';
-import { deleteAPIKey, getUserData, saveAPIKey, deleteUser } from '@/app/api-options/page';
+import { deleteAPIKey, getUserData, saveAPIKey, deleteUser, hasUserKey } from '@/app/api-options/page';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { handleSignOut } from '@/app/dashboard/actions';
+import { handleSignOut } from '@/app/game/actions';
+import { useTheme } from '@/app/context/themeContext';
 
-export default function APIOptions({ user }: DashboardClientProps) {
+export default function APIOptions({ user }: GameClientProps) {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [hasKey, setHasKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const theme = useTheme();
+
+  //* Reset theme on mount
+  useEffect(() => {
+    if (theme.theme !== '') {
+      theme.setTheme('');
+    }
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +40,13 @@ export default function APIOptions({ user }: DashboardClientProps) {
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
           <div className='flex items-center gap-2'>
             <div>
-              <div className='font-semibold'>API key successfully saved!</div>
+              <div className='font-semibold'>API key successfully saved! 🔑</div>
               <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
         </div>
       ));
-      router.push('/theme-provider');
+      router.replace('/theme-provider');
     } catch (error) {
       toast.custom((t) => (
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
@@ -64,13 +73,13 @@ export default function APIOptions({ user }: DashboardClientProps) {
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
           <div className='flex items-center gap-2'>
             <div>
-              <div className='font-semibold'>API key successfully updated!</div>
+              <div className='font-semibold'>API key successfully updated! 🔑</div>
               <div className='text-sm opacity-90'>You can now use your API key.</div>
             </div>
           </div>
         </div>
       ));
-      router.push('/theme-provider');
+      router.replace('/theme-provider');
     } catch (error) {
       toast.custom((t) => (
         <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
@@ -96,7 +105,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
           <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
             <div className='flex items-center gap-2'>
               <div>
-                <div className='font-semibold'>API key successfully deleted!</div>
+                <div className='font-semibold'>API key successfully deleted! ❌</div>
                 <div className='text-sm opacity-90'>You can now add an API key.</div>
               </div>
             </div>
@@ -126,7 +135,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
         await deleteUser();
         success = true;
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         setIsLoading(false);
         toast.custom((t) => (
           <div className='bg-linear-to-r from-gradient-pink to-gradient-gold text-white p-4 rounded-lg shadow-lg'>
@@ -148,10 +157,9 @@ export default function APIOptions({ user }: DashboardClientProps) {
 
   useEffect(() => {
     const checkKey = async () => {
-      const apiKey = await getUserData();
-      if (apiKey) {
+      const hasKey = await hasUserKey();
+      if (hasKey) {
         setHasKey(true);
-        setApiKey(apiKey);
       }
     };
     checkKey();
@@ -159,15 +167,15 @@ export default function APIOptions({ user }: DashboardClientProps) {
 
   return (
     <div className='fixed inset-0 flex flex-col overflow-hidden bg-background text-foreground'>
-      <Navbar isAuthenticated={true} user={user} isAPIOptionsDisabled={true} />
+      <Navbar isAuthenticated={true} user={user} isAPIOptionsDisabled={true} hasKey={hasKey} />
       <div className='p-8 flex flex-col flex-1 min-h-0'>
-        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse xl:flex-row gap-4'>
+        <div className='flex-1 min-h-0 mt-4 flex flex-col-reverse lg:flex-row gap-4'>
 
           {/* Instructions Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col gap-6 relative'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col gap-4 relative'>
             <div>
               <h2 className='text-2xl font-bold mb-4 text-center'>Getting Started with Google AI</h2>
-              <div className='aspect-video relative w-full mb-6 rounded-lg overflow-hidden border bg-muted'>
+              <div className='aspect-video relative w-full mb-4 rounded-lg overflow-hidden border bg-muted'>
                 <iframe
                   className='absolute inset-0 w-full h-full'
                   src='https://www.youtube.com/embed/RVGbLSVFtIk'
@@ -182,7 +190,7 @@ export default function APIOptions({ user }: DashboardClientProps) {
                   To unlock image generation features, you need a Google AI API Key.
                   Follow these steps to obtain one:
                 </p>
-                <ol className='list-decimal pl-5 space-y-2'>
+                <ol className='list-decimal pl-4 space-y-2'>
                   <li>
                     Go to <a href='https://aistudio.google.com/' target='_blank' rel='noopener noreferrer' className='text-primary hover:underline inline-flex items-center gap-1'>Google AI Studio <ExternalLink className='h-3 w-3' /></a>.
                   </li>
@@ -196,22 +204,18 @@ export default function APIOptions({ user }: DashboardClientProps) {
                     Copy the generated key and paste it in the panel to the right.
                   </li>
                 </ol>
-
-                <h3 className='text-xl font-semibold mt-6'>Enable Billing (Recommended)</h3>
-                <p>
-                  For higher rate limits and production usage, ensure billing is enabled for your Google Cloud project associated with the API key.
-                </p>
+                <TriangleAlert className='h-4 w-4 inline text-red-500' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
               </div>
             </div>
           </section>
 
           {/* API Key Management Panel */}
-          <section className='flex-1 min-w-[600px] border rounded-xl overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
+          <section className='flex-1 min-w-[400px] border rounded-lg overflow-auto shadow-sm bg-card p-6 flex flex-col relative justify-center items-center'>
             <div className='w-full max-w-md space-y-6'>
               <div className='text-center'>
                 <h2 className='text-2xl font-bold'>Account Management</h2>
-                <p className='text-muted-foreground mt-2'>
-                  Manage your Google AI API key securely. 🔑
+                <p className='text-muted-foreground'>
+                  Manage your Google AI API key securely 🔑
                 </p>
               </div>
 
@@ -236,17 +240,20 @@ export default function APIOptions({ user }: DashboardClientProps) {
                             placeholder='Paste new API key here'
                             value={apiKey}
                             onChange={(e) => setApiKey(e.target.value)}
+                            autoComplete='off'
                             required
                           />
-                          <Button
-                            type='button'
-                            variant='ghost'
-                            size='icon'
-                            className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
-                            onClick={() => setShowKey(!showKey)}
-                          >
-                            {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
-                          </Button>
+                          {apiKey &&
+                            <Button
+                              type='button'
+                              variant='ghost'
+                              size='icon'
+                              className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
+                              onClick={() => setShowKey(!showKey)}
+                            >
+                              {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
+                            </Button>
+                          }
                         </div>
                       </div>
                       <div className='flex gap-2'>
@@ -274,15 +281,17 @@ export default function APIOptions({ user }: DashboardClientProps) {
                           autoComplete='off'
                           required
                         />
-                        <Button
-                          type='button'
-                          variant='ghost'
-                          size='icon'
-                          className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer'
-                          onClick={() => setShowKey(!showKey)}
-                        >
-                          {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
-                        </Button>
+                        {apiKey &&
+                          <Button
+                            type='button'
+                            variant='ghost'
+                            size='icon'
+                            className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer'
+                            onClick={() => setShowKey(!showKey)}
+                          >
+                            {showKey ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
+                          </Button>
+                        }
                       </div>
                     </div>
                     <Button type='submit' className='w-full cursor-pointer' disabled={isLoading}>
