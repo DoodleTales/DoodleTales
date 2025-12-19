@@ -55,7 +55,9 @@ export default function Game({ user }: GameClientProps) {
   };
 
   const handleClearClick = () => {
-    canvasRef.current?.clearCanvas();
+    if (window.confirm('Are you sure you want to clear the canvas?')) {
+      canvasRef.current?.clearCanvas();
+    }
   };
 
   const handleUndoClick = () => {
@@ -155,7 +157,7 @@ export default function Game({ user }: GameClientProps) {
                     onClick={handleClearClick}
                     title='Clear'
                   >
-                    <Trash className='h-4 w-4' />
+                    <Trash className='h-4 w-4 stroke-red-600' />
                   </Button>
                 </div>
 
