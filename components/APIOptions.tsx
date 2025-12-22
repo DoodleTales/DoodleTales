@@ -204,11 +204,11 @@ export default function APIOptions({ user }: GameClientProps) {
                     Copy the generated key and paste it in the panel to the right.
                   </li>
                 </ol>
-                <div className='p-2 rounded text-left inline'> 
-                <TriangleAlert className='h-4 w-4 inline text-red-500 text-center' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
+                <div className='p-2 rounded text-left inline'>
+                  <TriangleAlert className='h-4 w-4 inline text-red-500 text-center' /> Ensure billing is enabled for your Google Cloud project associated with the API key.
                 </div>
                 <br />
-                <div className='p-2 rounded text-left inline'> 
+                <div className='p-2 rounded text-left inline'>
                   <TriangleAlert className='h-4 w-4 inline text-red-500 text-center' /> This APP is not under active maintenance, the user is responsible for the API key, and use it under their own risk.
                 </div>
               </div>
