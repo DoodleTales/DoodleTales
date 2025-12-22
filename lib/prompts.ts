@@ -158,6 +158,8 @@ export const GAME_PROMPTS = {
   4.  Tone Detection: Assess the chaos of the marks.
       - Neat/clean lines = Calm, serene, static atmosphere.
       - Messy/jagged lines = Intense, energetic, stormy, or fast-paced atmosphere.
+  5.  ONLY answer the question of the context with the image description.
+  6.  In case no context is provided, answer with one action only and maximum 50 words.
 
   You HAVE TO follow the following Response Structure (do not generate any other text):
   - Action: [A single, active sentence summarizing the main event. Example: "A traveler hikes through a dense forest."]. This HAVE TO be a short sentence, maximum 50 words.
