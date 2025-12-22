@@ -85,6 +85,9 @@ export function useGame() {
         if (response.status === 400) {
           clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Please check your details/Options and try again.');
         }
+        if (response.status === 413) {
+          clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Image too large. Please try again or reload the page.');
+        }
       }
 
       const imageData = await response.json();
@@ -132,6 +135,9 @@ export function useGame() {
         if (response.status === 400) {
           clientErrorToast(() => submitImage(base64Image), 'Error sending image.', 'Please check your details/Options and try again.');
         }
+        if (response.status === 413) {
+          clientErrorToast(() => submitImage(base64Image), 'Error sending image.', 'Please try again or reload the page.');
+        }
       }
 
       const dataPlayer = await response.json();
@@ -177,6 +183,9 @@ export function useGame() {
         }
         if (response.status === 400) {
           clientErrorToast(() => continueStory(playerAction), 'Error continuing story.', 'Please check your details/Options and try again.', true);
+        }
+        if (response.status === 413) {
+          clientErrorToast(() => continueStory(playerAction), 'Error continuing story.', 'Please try again or reload the page.');
         }
       }
 
