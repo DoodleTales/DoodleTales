@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const prompt = GAME_PROMPTS.GENERATE_IMAGE(imagePrompt);
 
     const { files } = await generateText({
-      model: google('gemini-2.5-flash-image-preview'),
+      model: google('gemini-2.5-flash-image'),
       prompt,
       providerOptions: {
         google: {
@@ -41,22 +41,32 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // console.log('Generated image 🖌️: ', files);
+    console.log('Generated image files 🖌️: ', files);
 
     const imageFile = files?.[0];
-    //* Check if the image file has a base64 property or is the base64 string itself
     const imageBase64 = typeof imageFile === 'string' ? imageFile : imageFile?.base64;
 
     return NextResponse.json({ image: imageBase64 || null });
 
   } catch (error) {
     console.error('Error generating image:', error);
-
-    const statusCode = error instanceof Error && 'statusCode' in error ? (error as { statusCode: number }).statusCode : 500;
+    
+    // Extract status code from various error formats
+    let statusCode = 500;
+    if (error && typeof error === 'object') {
+      if ('statusCode' in error) {
+        statusCode = (error as { statusCode: number }).statusCode;
+      } else if ('status' in error) {
+        statusCode = (error as { status: number }).status;
+      } else if ('code' in error && typeof (error as { code: unknown }).code === 'number') {
+        statusCode = (error as { code: number }).code;
+      }
+    }
 
     const errorMessage = error instanceof Error ? error.message : 'Failed to generate image';
 
-    console.log('STATUS CODE', statusCode);
+    console.log('STATUS CODE:', statusCode);
+    console.log('ERROR MESSAGE:', errorMessage);
 
     return NextResponse.json({ error: errorMessage }, { status: statusCode });
   }
