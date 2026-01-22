@@ -81,13 +81,23 @@ export function useGame() {
       if (!response.ok) {
         if (response.status === 500) {
           serverErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Please try again or reload the page.');
+          return;
         }
         if (response.status === 400) {
           clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Please check your details/Options and try again.');
+          return;
+        }
+        if (response.status === 404) {
+          clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Model not found. Please check your configuration.');
+          return;
         }
         if (response.status === 413) {
           clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'Image too large. Please try again or reload the page.');
+          return;
         }
+        // Handle any other error status codes
+        clientErrorToast(() => generateImage(messageId, imagePrompt), 'Error generating image.', 'An unexpected error occurred. Please try again.');
+        return;
       }
 
       const imageData = await response.json();
